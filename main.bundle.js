@@ -1408,7 +1408,8 @@ var ProfileComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return config; });
 var config = {
-    baseURL: 'http://localhost:3000/'
+    // baseURL: 'http://localhost:3000/'
+    baseURL: 'http://34.220.128.209:3000/'
 };
 
 
