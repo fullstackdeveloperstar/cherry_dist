@@ -945,14 +945,14 @@ var AppModule = /** @class */ (function () {
 /***/ "./src/app/contacts/contacts.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"contacts\">\r\n  \r\n  <!-- <table class=\"table table-hover \" [mfData]=\"contactsList\" #mf=\"mfDataTable\" [mfRowsOnPage]=\"5\">\r\n    <thead>\r\n      <tr>\r\n        <th>Id</th>\r\n        <th>\r\n          <mfDefaultSorter by=\"first_name\">First Name</mfDefaultSorter>\r\n        </th>\r\n        <th>\r\n          <mfDefaultSorter by=\"last_name\">Last Name</mfDefaultSorter>\r\n        </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let contact of mf.data; let i = index\">\r\n        <td>{{i}}</td>\r\n        <td>{{contact['first_name']}}</td>\r\n        <td>{{contact['last_name']}}</td>\r\n      </tr>\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td colspan=\"4\">\r\n          <mfBootstrapPaginator [rowsOnPageSet]=\"[5,10,25]\"></mfBootstrapPaginator>\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table> -->\r\n  <div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n      <input type=\"text\" placeholder=\"Search\" class=\"form-control\">\r\n    </div>\r\n    \r\n    <div class=\"col-md-2\">Advanced Filtering</div>\r\n\r\n    <div class=\"col-md-2\">\r\n      <button class=\"btn btn-success\">Action</button>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"contacts\">\r\n    <table class=\"table table-hover\">\r\n      <thead>\r\n        <th></th>\r\n        <th>Profile</th>\r\n        <th>Tags</th>\r\n        <th>Status</th>\r\n        <th>Actions</th>\r\n        <th>Messages</th>\r\n        <th>Date of Creation</th>\r\n        <th>Staff</th>\r\n        <th>Rating</th>\r\n        <th>Note</th>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let contact of contactsList; let i = index\">\r\n          <td><input type=\"checkbox\"></td>\r\n          <td>\r\n            <img [src]=\"contact.profile_image\" alt=\"\" class=\"profile-image\">\r\n          </td>\r\n          <td>{{contact.tags}}</td>\r\n          <td>{{contact.status}}</td>\r\n          <td>{{contact.actions}}</td>\r\n          <td>{{contact.messages}}</td>\r\n          <td>{{contact.date_of_creation}}</td>\r\n          <td>{{contact.staff}}</td>\r\n          <td>{{contact.rating}}</td>\r\n          <td>{{contact.note}}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"contacts\">\r\n  \r\n  <!-- <table class=\"table table-hover \" [mfData]=\"contactsList\" #mf=\"mfDataTable\" [mfRowsOnPage]=\"5\">\r\n    <thead>\r\n      <tr>\r\n        <th>Id</th>\r\n        <th>\r\n          <mfDefaultSorter by=\"first_name\">First Name</mfDefaultSorter>\r\n        </th>\r\n        <th>\r\n          <mfDefaultSorter by=\"last_name\">Last Name</mfDefaultSorter>\r\n        </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let contact of mf.data; let i = index\">\r\n        <td>{{i}}</td>\r\n        <td>{{contact['first_name']}}</td>\r\n        <td>{{contact['last_name']}}</td>\r\n      </tr>\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td colspan=\"4\">\r\n          <mfBootstrapPaginator [rowsOnPageSet]=\"[5,10,25]\"></mfBootstrapPaginator>\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table> -->\r\n  <div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n      <input type=\"text\" placeholder=\"Search\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"searchFilter\">\r\n    </div>\r\n    \r\n    <div class=\"col-md-2 btn btn-default\" (click)=\"isAdvancedFiltering = !isAdvancedFiltering ; filter()\">Advanced Filtering</div>\r\n\r\n    <div class=\"col-md-2 dropdown\">\r\n      <button class=\"btn btn-success\" data-toggle=\"dropdown\">Action</button>\r\n      <ul class=\"dropdown-menu\">\r\n        <li (click)=\"deleteSelected()\">Delete</li>\r\n        <li>Send Bulk Messages</li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row advanced-filtering\" *ngIf=\"isAdvancedFiltering\">\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"tag\" class=\"form-control\" [(ngModel)]=\"tagFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"status\" class=\"form-control\" [(ngModel)]=\"statusFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"actions\" class=\"form-control\" [(ngModel)]=\"actionsFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"messages\" class=\"form-control\" [(ngModel)]=\"messagesFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"date of creation\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"dateofcreationFilter\">\r\n    </div>\r\n\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"staff\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"staffFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"rate\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"ratingFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"time\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"timeFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"note\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"noteFilter\">\r\n    </div>\r\n  </div>\r\n  \r\n  <div class=\"contacts\">\r\n    <table class=\"table table-hover\">\r\n      <thead>\r\n        <th></th>\r\n        <th>Profile</th>\r\n        <th>Name</th>\r\n        <th>Tags</th>\r\n        <th>Status</th>\r\n        <th>Actions</th>\r\n        <th>Messages</th>\r\n        <th>Date of Creation</th>\r\n        <th>Staff</th>\r\n        <th>Rating</th>\r\n        <th>Time</th>\r\n        <th>Note</th>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let contact of contactsListShow; let i = index\">\r\n          <td><input type=\"checkbox\" [(ngModel)]=\"contact.check\"></td>\r\n          <td>\r\n            <img [src]=\"contact.profile_image\" alt=\"\" class=\"profile-image\">\r\n          </td>\r\n          <td>{{contact.name}}</td>\r\n          <td>{{contact.tags}}</td>\r\n          <td>{{contact.status}}</td>\r\n          <td>{{contact.actions}}</td>\r\n          <td>{{contact.messages}}</td>\r\n          <td>{{contact.date_of_creation}}</td>\r\n          <td>{{contact.staff}}</td>\r\n          <td>{{contact.rating}}</td>\r\n          <td>{{contact.time}}s</td>\r\n          <td>{{contact.note}}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
 /***/ "./src/app/contacts/contacts.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".contacts {\n  margin: 0px 50px;\n  padding-top: 20px; }\n  .contacts .profile-image {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    border: solid 2px; }\n"
+module.exports = ".contacts {\n  margin: 0px 50px;\n  padding-top: 20px; }\n  .contacts .profile-image {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    border: solid 2px; }\n  .contacts .advanced-filtering {\n    margin-top: 20px;\n    background: #888;\n    padding: 10px; }\n  .contacts .advanced-filtering .filter-item {\n      margin-top: 10px;\n      margin-bottom: 10px; }\n  .contacts .dropdown .dropdown-menu li {\n    padding: 5px;\n    cursor: pointer; }\n  .contacts .dropdown .dropdown-menu li:hover {\n      background: #888; }\n"
 
 /***/ }),
 
@@ -990,28 +990,95 @@ var ContactsComponent = /** @class */ (function () {
         this.actionService = actionService;
         this.staffService = staffService;
         this.contactsList = [];
+        this.contactsListShow = [];
+        this.isAdvancedFiltering = false;
+        this.tagFilter = '';
+        this.searchFilter = '';
+        this.statusFilter = '';
+        this.actionsFilter = '';
+        this.messagesFilter = '';
+        this.dateofcreationFilter = '';
+        this.staffFilter = '';
+        this.ratingFilter = '';
+        this.noteFilter = '';
+        this.timeFilter = '';
+        this.loadContacts();
+    }
+    ContactsComponent.prototype.loadContacts = function () {
         var me = this;
+        var userId = localStorage.getItem('userId');
+        var role = localStorage.getItem('role');
+        me.contactsList = [];
+        me.contactsListShow = [];
         this.contactsService.getContacts().subscribe(function (data) {
             if (data['success'] === 1) {
-                me.contactsList = data['data'];
+                data['data'].map(function (contact) {
+                    if (role.toString() === '2') {
+                        if (contact['staff'].toString() === userId) {
+                            me.contactsList.push(contact);
+                        }
+                    }
+                    else {
+                        me.contactsList.push(contact);
+                    }
+                });
                 me.contactsList.map(function (contact) {
-                    tagService.getTagName(contact['tags']).subscribe(function (tag) {
+                    me.tagService.getTagName(contact['tags']).subscribe(function (tag) {
                         contact['tags'] = tag['data'][0]['name'];
                     });
-                    statusService.getStatusName(contact['status']).subscribe(function (status) {
+                    me.statusService.getStatusName(contact['status']).subscribe(function (status) {
                         contact['status'] = status['data'][0]['name'];
                     });
-                    actionService.getActionName(contact['actions']).subscribe(function (action) {
+                    me.actionService.getActionName(contact['actions']).subscribe(function (action) {
                         contact['actions'] = action['data'][0]['name'];
                     });
-                    staffService.getStaffName(contact['staff']).subscribe(function (staff) {
+                    me.staffService.getStaffName(contact['staff']).subscribe(function (staff) {
                         contact['staff'] = staff['data'][0]['name'];
                     });
+                    contact['check'] = false;
                 });
+                me.contactsListShow = me.contactsList;
             }
         });
-    }
+    };
     ContactsComponent.prototype.ngOnInit = function () {
+    };
+    ContactsComponent.prototype.filter = function () {
+        var me = this;
+        console.log(me.contactsListShow);
+        me.contactsListShow = me.contactsList.filter(function (el) {
+            if (!me.isAdvancedFiltering) {
+                return el.name.includes(me.searchFilter);
+            }
+            return el.tags.includes(me.tagFilter)
+                && el.name.includes(me.searchFilter)
+                && el.status.includes(me.statusFilter)
+                && el.actions.includes(me.actionsFilter)
+                && el.messages.includes(me.messagesFilter)
+                && el.date_of_creation.includes(me.dateofcreationFilter)
+                && el.staff.includes(me.staffFilter)
+                && el.rating.toString().includes(me.ratingFilter)
+                && el.time.toString().includes(me.timeFilter)
+                && el.note.includes(me.noteFilter);
+        });
+    };
+    ContactsComponent.prototype.deleteSelected = function () {
+        var me = this;
+        var checkedList = [];
+        checkedList = me.contactsListShow.filter(function (el) {
+            return el.check;
+        });
+        console.log(checkedList);
+        if (checkedList.length === 0) {
+            alert('Please select contact list to delete!');
+            return;
+        }
+        checkedList.map(function (contact) {
+            me.contactsService.delete(contact.id).subscribe(function (data) {
+                console.log(data);
+                me.loadContacts();
+            });
+        });
     };
     ContactsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -1085,7 +1152,7 @@ var DashboardComponent = /** @class */ (function () {
 /***/ "./src/app/dashboard/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header\">\r\n  <div class=\"left-items\">\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/home'}\" (click)=\"goto('/dashboard/home')\">Dashboard</div>\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/contacts'}\" (click)=\"goto('/dashboard/contacts')\">Contacts</div>\r\n    <div *ngIf=\"profile.role == 1\" class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/admin/managestaff'}\" (click)=\"goto('/dashboard/admin/managestaff')\">Admin</div>\r\n  </div>\r\n  <div class=\"right-items\">\r\n    <div class=\"user\" (click)=\"goto('/dashboard/profile')\" *ngIf=\"isLoadedProfile\">\r\n      <img [src]=\"profile.avartar\" class=\"avartar\" >\r\n      <div class=\"username\" >{{profile.name}}</div>\r\n    </div>\r\n    <div class=\"logout\" (click)=\"logout()\">Log Out</div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"header\">\r\n  <div class=\"left-items\">\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/home'}\" (click)=\"goto('/dashboard/home')\">Dashboard</div>\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/contacts'}\" (click)=\"goto('/dashboard/contacts')\">Contacts</div>\r\n    <div *ngIf=\"profile != null &&  profile.role == 1\" class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/admin/managestaff'}\" (click)=\"goto('/dashboard/admin/managestaff')\">Admin</div>\r\n  </div>\r\n  <div class=\"right-items\">\r\n    <div class=\"user\" (click)=\"goto('/dashboard/profile')\" *ngIf=\"isLoadedProfile\">\r\n      <img [src]=\"profile.avartar\" class=\"avartar\" >\r\n      <div class=\"username\" >{{profile.name}}</div>\r\n    </div>\r\n    <div class=\"logout\" (click)=\"logout()\">Log Out</div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -1127,7 +1194,6 @@ var HeaderComponent = /** @class */ (function () {
         this.activeURL = '/dashboard/home';
         this.isLoadedProfile = false;
         router.events.subscribe(function (val) {
-            console.log(location.path());
             _this.activeURL = location.path();
         });
         profileService.getProfile().subscribe(function (data) {
@@ -1292,6 +1358,7 @@ var LoginComponent = /** @class */ (function () {
                 _this.loginService.token = data['token'];
                 localStorage.setItem('token', data['token']);
                 localStorage.setItem('userId', data['user'].id);
+                localStorage.setItem('role', data['user'].role);
                 _this.router.navigate(['/dashboard/home']);
             }
         }, function (err) {
@@ -1456,8 +1523,8 @@ var ProfileComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return config; });
 var config = {
-    // baseURL: 'http://localhost:3000/'
-    baseURL: 'http://34.220.128.209:3000/'
+    baseURL: 'http://localhost:3000/'
+    // baseURL: 'http://34.220.128.209:3000/'
 };
 
 
@@ -1588,6 +1655,9 @@ var ContactsService = /** @class */ (function () {
     ContactsService.prototype.getContacts = function () {
         // return this.http.get(config.baseURL + 'remote/getUsers', { headers: this.header });
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name, { headers: this.header });
+    };
+    ContactsService.prototype.delete = function (id) {
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + id, { headers: this.header });
     };
     ContactsService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
