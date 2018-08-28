@@ -53,7 +53,7 @@ var AdminComponent = /** @class */ (function () {
     AdminComponent.prototype.ngOnInit = function () {
     };
     AdminComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-admin',
             template: __webpack_require__("./src/app/admin/admin.component.html"),
             styles: [__webpack_require__("./src/app/admin/admin.component.scss")]
@@ -118,13 +118,13 @@ var AdminheaderComponent = /** @class */ (function () {
         this.router.navigate([url]);
     };
     AdminheaderComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-adminheader',
             template: __webpack_require__("./src/app/admin/adminheader/adminheader.component.html"),
             styles: [__webpack_require__("./src/app/admin/adminheader/adminheader.component.scss")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_common__["f" /* Location */]])
+            __WEBPACK_IMPORTED_MODULE_2__angular_common__["Location"]])
     ], AdminheaderComponent);
     return AdminheaderComponent;
 }());
@@ -219,7 +219,7 @@ var ManageactionsComponent = /** @class */ (function () {
         });
     };
     ManageactionsComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-manageactions',
             template: __webpack_require__("./src/app/admin/manageactions/manageactions.component.html"),
             styles: [__webpack_require__("./src/app/admin/manageactions/manageactions.component.scss")]
@@ -360,11 +360,11 @@ var ManagestaffComponent = /** @class */ (function () {
         }
     };
     ManagestaffComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-managestaff',
             template: __webpack_require__("./src/app/admin/managestaff/managestaff.component.html"),
             styles: [__webpack_require__("./src/app/admin/managestaff/managestaff.component.scss")],
-            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_10" /* ViewEncapsulation */].None,
+            encapsulation: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewEncapsulation"].None,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services_staff_service__["a" /* StaffService */],
             __WEBPACK_IMPORTED_MODULE_2__shared_services_profile_service__["a" /* ProfileService */]])
@@ -462,7 +462,7 @@ var ManagestatusComponent = /** @class */ (function () {
         });
     };
     ManagestatusComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-managestatus',
             template: __webpack_require__("./src/app/admin/managestatus/managestatus.component.html"),
             styles: [__webpack_require__("./src/app/admin/managestatus/managestatus.component.scss")]
@@ -562,7 +562,7 @@ var ManagetagsComponent = /** @class */ (function () {
         });
     };
     ManagetagsComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-managetags',
             template: __webpack_require__("./src/app/admin/managetags/managetags.component.html"),
             styles: [__webpack_require__("./src/app/admin/managetags/managetags.component.scss")]
@@ -662,7 +662,7 @@ var ManagetemplatesComponent = /** @class */ (function () {
         });
     };
     ManagetemplatesComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-managetemplates',
             template: __webpack_require__("./src/app/admin/managetemplates/managetemplates.component.html"),
             styles: [__webpack_require__("./src/app/admin/managetemplates/managetemplates.component.scss")]
@@ -763,7 +763,7 @@ var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
     AppRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forRoot(routes)],
             exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]]
         })
@@ -807,7 +807,7 @@ var AppComponent = /** @class */ (function () {
         this.title = 'app';
     }
     AppComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-root',
             template: __webpack_require__("./src/app/app.component.html"),
             styles: [__webpack_require__("./src/app/app.component.scss")]
@@ -852,12 +852,16 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__shared_services_authguard_service__ = __webpack_require__("./src/app/shared/services/authguard.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__shared_services_contacts_service__ = __webpack_require__("./src/app/shared/services/contacts.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_angular_6_datatable__ = __webpack_require__("./node_modules/angular-6-datatable/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_angular_6_datatable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_28_angular_6_datatable__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -886,11 +890,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["I" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_5__login_login_component__["a" /* LoginComponent */],
@@ -911,7 +916,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2__app_routing_module__["a" /* AppRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_26__angular_common_http__["b" /* HttpClientModule */]
+                __WEBPACK_IMPORTED_MODULE_26__angular_common_http__["b" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_28_angular_6_datatable__["DataTableModule"]
                 // NgbModule.forRoot()
             ],
             providers: [
@@ -922,7 +928,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_22__shared_services_status_service__["a" /* StatusService */],
                 __WEBPACK_IMPORTED_MODULE_23__shared_services_action_service__["a" /* ActionService */],
                 __WEBPACK_IMPORTED_MODULE_24__shared_services_authguard_service__["a" /* AuthguardService */],
-                __WEBPACK_IMPORTED_MODULE_25__shared_services_login_service__["a" /* LoginService */]
+                __WEBPACK_IMPORTED_MODULE_25__shared_services_login_service__["a" /* LoginService */],
+                __WEBPACK_IMPORTED_MODULE_27__shared_services_contacts_service__["a" /* ContactsService */]
                 // NgbModal
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
@@ -938,14 +945,14 @@ var AppModule = /** @class */ (function () {
 /***/ "./src/app/contacts/contacts.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  contacts works!\r\n</p>\r\n"
+module.exports = "<div class=\"contacts\">\r\n  \r\n  <!-- <table class=\"table table-hover \" [mfData]=\"contactsList\" #mf=\"mfDataTable\" [mfRowsOnPage]=\"5\">\r\n    <thead>\r\n      <tr>\r\n        <th>Id</th>\r\n        <th>\r\n          <mfDefaultSorter by=\"first_name\">First Name</mfDefaultSorter>\r\n        </th>\r\n        <th>\r\n          <mfDefaultSorter by=\"last_name\">Last Name</mfDefaultSorter>\r\n        </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let contact of mf.data; let i = index\">\r\n        <td>{{i}}</td>\r\n        <td>{{contact['first_name']}}</td>\r\n        <td>{{contact['last_name']}}</td>\r\n      </tr>\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td colspan=\"4\">\r\n          <mfBootstrapPaginator [rowsOnPageSet]=\"[5,10,25]\"></mfBootstrapPaginator>\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table> -->\r\n  <div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n      <input type=\"text\" placeholder=\"Search\" class=\"form-control\">\r\n    </div>\r\n    \r\n    <div class=\"col-md-2\">Advanced Filtering</div>\r\n\r\n    <div class=\"col-md-2\">\r\n      <button class=\"btn btn-success\">Action</button>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"contacts\">\r\n    <table class=\"table table-hover\">\r\n      <thead>\r\n        <th></th>\r\n        <th>Profile</th>\r\n        <th>Tags</th>\r\n        <th>Status</th>\r\n        <th>Actions</th>\r\n        <th>Messages</th>\r\n        <th>Date of Creation</th>\r\n        <th>Staff</th>\r\n        <th>Rating</th>\r\n        <th>Note</th>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let contact of contactsList; let i = index\">\r\n          <td><input type=\"checkbox\"></td>\r\n          <td>\r\n            <img [src]=\"contact.profile_image\" alt=\"\" class=\"profile-image\">\r\n          </td>\r\n          <td>{{contact.tags}}</td>\r\n          <td>{{contact.status}}</td>\r\n          <td>{{contact.actions}}</td>\r\n          <td>{{contact.messages}}</td>\r\n          <td>{{contact.date_of_creation}}</td>\r\n          <td>{{contact.staff}}</td>\r\n          <td>{{contact.rating}}</td>\r\n          <td>{{contact.note}}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
 /***/ "./src/app/contacts/contacts.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".contacts {\n  margin: 0px 50px;\n  padding-top: 20px; }\n  .contacts .profile-image {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    border: solid 2px; }\n"
 
 /***/ }),
 
@@ -955,6 +962,11 @@ module.exports = ""
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_contacts_service__ = __webpack_require__("./src/app/shared/services/contacts.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_tag_service__ = __webpack_require__("./src/app/shared/services/tag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_status_service__ = __webpack_require__("./src/app/shared/services/status.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_action_service__ = __webpack_require__("./src/app/shared/services/action.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_staff_service__ = __webpack_require__("./src/app/shared/services/staff.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -965,18 +977,53 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
+
+
+
 var ContactsComponent = /** @class */ (function () {
-    function ContactsComponent() {
+    function ContactsComponent(contactsService, tagService, statusService, actionService, staffService) {
+        this.contactsService = contactsService;
+        this.tagService = tagService;
+        this.statusService = statusService;
+        this.actionService = actionService;
+        this.staffService = staffService;
+        this.contactsList = [];
+        var me = this;
+        this.contactsService.getContacts().subscribe(function (data) {
+            if (data['success'] === 1) {
+                me.contactsList = data['data'];
+                me.contactsList.map(function (contact) {
+                    tagService.getTagName(contact['tags']).subscribe(function (tag) {
+                        contact['tags'] = tag['data'][0]['name'];
+                    });
+                    statusService.getStatusName(contact['status']).subscribe(function (status) {
+                        contact['status'] = status['data'][0]['name'];
+                    });
+                    actionService.getActionName(contact['actions']).subscribe(function (action) {
+                        contact['actions'] = action['data'][0]['name'];
+                    });
+                    staffService.getStaffName(contact['staff']).subscribe(function (staff) {
+                        contact['staff'] = staff['data'][0]['name'];
+                    });
+                });
+            }
+        });
     }
     ContactsComponent.prototype.ngOnInit = function () {
     };
     ContactsComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-contacts',
             template: __webpack_require__("./src/app/contacts/contacts.component.html"),
             styles: [__webpack_require__("./src/app/contacts/contacts.component.scss")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services_contacts_service__["a" /* ContactsService */],
+            __WEBPACK_IMPORTED_MODULE_2__shared_services_tag_service__["a" /* TagService */],
+            __WEBPACK_IMPORTED_MODULE_3__shared_services_status_service__["a" /* StatusService */],
+            __WEBPACK_IMPORTED_MODULE_4__shared_services_action_service__["a" /* ActionService */],
+            __WEBPACK_IMPORTED_MODULE_5__shared_services_staff_service__["a" /* StaffService */]])
     ], ContactsComponent);
     return ContactsComponent;
 }());
@@ -1021,7 +1068,7 @@ var DashboardComponent = /** @class */ (function () {
     DashboardComponent.prototype.ngOnInit = function () {
     };
     DashboardComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-dashboard',
             template: __webpack_require__("./src/app/dashboard/dashboard.component.html"),
             styles: [__webpack_require__("./src/app/dashboard/dashboard.component.scss")]
@@ -1038,7 +1085,7 @@ var DashboardComponent = /** @class */ (function () {
 /***/ "./src/app/dashboard/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header\">\r\n  <div class=\"left-items\">\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/home'}\" (click)=\"goto('/dashboard/home')\">Dashboard</div>\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/contacts'}\" (click)=\"goto('/dashboard/contacts')\">Contacts</div>\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/admin/managestaff'}\" (click)=\"goto('/dashboard/admin/managestaff')\">Admin</div>\r\n  </div>\r\n  <div class=\"right-items\">\r\n    <div class=\"user\" (click)=\"goto('/dashboard/profile')\" *ngIf=\"isLoadedProfile\">\r\n      <img [src]=\"profile.avartar\" class=\"avartar\" >\r\n      <div class=\"username\" >{{profile.name}}</div>\r\n    </div>\r\n    <div class=\"logout\" (click)=\"logout()\">Log Out</div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"header\">\r\n  <div class=\"left-items\">\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/home'}\" (click)=\"goto('/dashboard/home')\">Dashboard</div>\r\n    <div class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/contacts'}\" (click)=\"goto('/dashboard/contacts')\">Contacts</div>\r\n    <div *ngIf=\"profile.role == 1\" class=\"left-item\" [ngClass]=\"{'active': activeURL=='/dashboard/admin/managestaff'}\" (click)=\"goto('/dashboard/admin/managestaff')\">Admin</div>\r\n  </div>\r\n  <div class=\"right-items\">\r\n    <div class=\"user\" (click)=\"goto('/dashboard/profile')\" *ngIf=\"isLoadedProfile\">\r\n      <img [src]=\"profile.avartar\" class=\"avartar\" >\r\n      <div class=\"username\" >{{profile.name}}</div>\r\n    </div>\r\n    <div class=\"logout\" (click)=\"logout()\">Log Out</div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -1091,7 +1138,8 @@ var HeaderComponent = /** @class */ (function () {
                     email: data1['data'][0].email,
                     phone: data1['data'][0].phone,
                     avartar: data1['data'][0].avartar,
-                    description: data1['data'][0].description
+                    description: data1['data'][0].description,
+                    role: data1['data'][0].role
                 };
                 _this.isLoadedProfile = true;
             });
@@ -1106,13 +1154,13 @@ var HeaderComponent = /** @class */ (function () {
         this.router.navigate(['/login']);
     };
     HeaderComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-header',
             template: __webpack_require__("./src/app/dashboard/header/header.component.html"),
             styles: [__webpack_require__("./src/app/dashboard/header/header.component.scss")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_common__["f" /* Location */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_common__["Location"],
             __WEBPACK_IMPORTED_MODULE_3__shared_services_profile_service__["a" /* ProfileService */]])
     ], HeaderComponent);
     return HeaderComponent;
@@ -1158,7 +1206,7 @@ var HomeComponent = /** @class */ (function () {
     HomeComponent.prototype.ngOnInit = function () {
     };
     HomeComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-home',
             template: __webpack_require__("./src/app/dashboard/home/home.component.html"),
             styles: [__webpack_require__("./src/app/dashboard/home/home.component.scss")]
@@ -1252,7 +1300,7 @@ var LoginComponent = /** @class */ (function () {
         // this.router.navigate(['/dashboard/home']);
     };
     LoginComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-login',
             template: __webpack_require__("./src/app/login/login.component.html"),
             styles: [__webpack_require__("./src/app/login/login.component.scss")]
@@ -1388,7 +1436,7 @@ var ProfileComponent = /** @class */ (function () {
         }
     };
     ProfileComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-profile',
             template: __webpack_require__("./src/app/profile/profile.component.html"),
             styles: [__webpack_require__("./src/app/profile/profile.component.scss")]
@@ -1452,8 +1500,11 @@ var ActionService = /** @class */ (function () {
     ActionService.prototype.editAction = function (editAction) {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + editAction.id, editAction, { headers: this.header });
     };
+    ActionService.prototype.getActionName = function (actionId) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + actionId, { headers: this.header });
+    };
     ActionService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
     ], ActionService);
     return ActionService;
@@ -1496,11 +1547,53 @@ var AuthguardService = /** @class */ (function () {
         return false;
     };
     AuthguardService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */],
             __WEBPACK_IMPORTED_MODULE_2__login_service__["a" /* LoginService */]])
     ], AuthguardService);
     return AuthguardService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/contacts.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactsService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_config_model__ = __webpack_require__("./src/app/shared/modules/config.model.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ContactsService = /** @class */ (function () {
+    function ContactsService(http) {
+        this.http = http;
+        this.table_name = 'contacts';
+        this.token = localStorage.getItem('token');
+        this.header = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'token': this.token });
+    }
+    ContactsService.prototype.getContacts = function () {
+        // return this.http.get(config.baseURL + 'remote/getUsers', { headers: this.header });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name, { headers: this.header });
+    };
+    ContactsService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
+    ], ContactsService);
+    return ContactsService;
 }());
 
 
@@ -1536,7 +1629,7 @@ var LoginService = /** @class */ (function () {
         return this.http.post(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'users/login', userInfo);
     };
     LoginService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
     ], LoginService);
     return LoginService;
@@ -1586,7 +1679,7 @@ var ProfileService = /** @class */ (function () {
         return this.http.post(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'upload', formdata);
     };
     ProfileService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
     ], ProfileService);
     return ProfileService;
@@ -1633,8 +1726,11 @@ var StaffService = /** @class */ (function () {
     StaffService.prototype.editStaff = function (editStaff) {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + editStaff.id, editStaff, { headers: this.header });
     };
+    StaffService.prototype.getStaffName = function (staffId) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + staffId, { headers: this.header });
+    };
     StaffService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
     ], StaffService);
     return StaffService;
@@ -1681,8 +1777,11 @@ var StatusService = /** @class */ (function () {
     StatusService.prototype.editStatus = function (editStatus) {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + editStatus.id, editStatus, { headers: this.header });
     };
+    StatusService.prototype.getStatusName = function (statusId) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + statusId, { headers: this.header });
+    };
     StatusService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
     ], StatusService);
     return StatusService;
@@ -1729,8 +1828,11 @@ var TagService = /** @class */ (function () {
     TagService.prototype.editTag = function (editTag) {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + editTag.id, editTag, { headers: this.header });
     };
+    TagService.prototype.getTagName = function (tagId) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + tagId, { headers: this.header });
+    };
     TagService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
     ], TagService);
     return TagService;
@@ -1778,7 +1880,7 @@ var TemplateService = /** @class */ (function () {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + editTemplate.id, editTemplate, { headers: this.header });
     };
     TemplateService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
     ], TemplateService);
     return TemplateService;
@@ -1818,7 +1920,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_13" /* enableProdMode */])();
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
 }
 Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */])
     .catch(function (err) { return console.log(err); });
