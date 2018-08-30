@@ -377,7 +377,7 @@ var AdminheaderComponent = /** @class */ (function () {
         this.location = location;
         this.activeURL = '/dashboard/admin/managestaff';
         router.events.subscribe(function (val) {
-            console.log(location.path());
+            // console.log(location.path());
             _this.activeURL = location.path();
         });
     }
@@ -392,7 +392,7 @@ var AdminheaderComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/admin/adminheader/adminheader.component.html"),
             styles: [__webpack_require__("./src/app/admin/adminheader/adminheader.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_2__angular_common__["Location"]])
     ], AdminheaderComponent);
     return AdminheaderComponent;
@@ -964,12 +964,14 @@ var ManagetemplatesComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__admin_managestatus_managestatus_component__ = __webpack_require__("./src/app/admin/managestatus/managestatus.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__admin_manageactions_manageactions_component__ = __webpack_require__("./src/app/admin/manageactions/manageactions.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__shared_services_authguard_service__ = __webpack_require__("./src/app/shared/services/authguard.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__chat_chat_component__ = __webpack_require__("./src/app/chat/chat.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1021,6 +1023,9 @@ var routes = [
                         component: __WEBPACK_IMPORTED_MODULE_12__admin_manageactions_manageactions_component__["a" /* ManageactionsComponent */],
                         path: 'manageactions'
                     }]
+            }, {
+                component: __WEBPACK_IMPORTED_MODULE_14__chat_chat_component__["a" /* ChatComponent */],
+                path: 'chat/:contactId/:userId'
             }
         ]
     },
@@ -1033,8 +1038,8 @@ var AppRoutingModule = /** @class */ (function () {
     }
     AppRoutingModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forRoot(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]]
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forRoot(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
         })
     ], AppRoutingModule);
     return AppRoutingModule;
@@ -1127,6 +1132,8 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29_angular2_moment__ = __webpack_require__("./node_modules/angular2-moment/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29_angular2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29_angular2_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_angular_moment_timezone__ = __webpack_require__("./node_modules/angular-moment-timezone/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__chat_chat_component__ = __webpack_require__("./src/app/chat/chat.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_ng_simple_slideshow__ = __webpack_require__("./node_modules/ng-simple-slideshow/ng-simple-slideshow.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1165,6 +1172,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -1184,7 +1193,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_15__admin_managetags_managetags_component__["a" /* ManagetagsComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__admin_managetemplates_managetemplates_component__["a" /* ManagetemplatesComponent */],
                 __WEBPACK_IMPORTED_MODULE_17__admin_managestatus_managestatus_component__["a" /* ManagestatusComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__admin_manageactions_manageactions_component__["a" /* ManageactionsComponent */]
+                __WEBPACK_IMPORTED_MODULE_18__admin_manageactions_manageactions_component__["a" /* ManageactionsComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__chat_chat_component__["a" /* ChatComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -1193,7 +1203,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_26__angular_common_http__["b" /* HttpClientModule */],
                 __WEBPACK_IMPORTED_MODULE_28_angular_6_datatable__["DataTableModule"],
                 __WEBPACK_IMPORTED_MODULE_29_angular2_moment__["MomentModule"],
-                __WEBPACK_IMPORTED_MODULE_30_angular_moment_timezone__["a" /* MomentTimezoneModule */]
+                __WEBPACK_IMPORTED_MODULE_30_angular_moment_timezone__["a" /* MomentTimezoneModule */],
+                __WEBPACK_IMPORTED_MODULE_32_ng_simple_slideshow__["a" /* SlideshowModule */]
                 // NgbModule.forRoot()
             ],
             providers: [
@@ -1218,31 +1229,33 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/contacts/contacts.component.html":
+/***/ "./src/app/chat/chat.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"contacts\">\r\n  \r\n  <!-- <table class=\"table table-hover \" [mfData]=\"contactsList\" #mf=\"mfDataTable\" [mfRowsOnPage]=\"5\">\r\n    <thead>\r\n      <tr>\r\n        <th>Id</th>\r\n        <th>\r\n          <mfDefaultSorter by=\"first_name\">First Name</mfDefaultSorter>\r\n        </th>\r\n        <th>\r\n          <mfDefaultSorter by=\"last_name\">Last Name</mfDefaultSorter>\r\n        </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let contact of mf.data; let i = index\">\r\n        <td>{{i}}</td>\r\n        <td>{{contact['first_name']}}</td>\r\n        <td>{{contact['last_name']}}</td>\r\n      </tr>\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td colspan=\"4\">\r\n          <mfBootstrapPaginator [rowsOnPageSet]=\"[5,10,25]\"></mfBootstrapPaginator>\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table> -->\r\n  <div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n      <input type=\"text\" placeholder=\"Search Name\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"searchFilter\">\r\n    </div>\r\n    \r\n    <div class=\"col-md-2 btn btn-default\" (click)=\"isAdvancedFiltering = !isAdvancedFiltering ; filter()\">Advanced Filtering</div>\r\n\r\n    <div class=\"col-md-2 dropdown\">\r\n      <button class=\"btn btn-success\" data-toggle=\"dropdown\">Action</button>\r\n      <ul class=\"dropdown-menu\">\r\n        <li (click)=\"deleteSelected()\">Delete</li>\r\n        <li>Send Bulk Messages</li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row advanced-filtering\" *ngIf=\"isAdvancedFiltering\">\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"tag\" class=\"form-control\" [(ngModel)]=\"tagFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"status\" class=\"form-control\" [(ngModel)]=\"statusFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"actions\" class=\"form-control\" [(ngModel)]=\"actionsFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"messages\" class=\"form-control\" [(ngModel)]=\"messagesFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"date of creation\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"dateofcreationFilter\">\r\n    </div>\r\n\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"staff\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"staffFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"rate\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"ratingFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"time\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"timeFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"note\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"noteFilter\">\r\n    </div>\r\n  </div>\r\n  \r\n  <div class=\"contacts\">\r\n    <table class=\"table table-hover\">\r\n      <thead>\r\n        <th></th>\r\n        <th>Profile</th>\r\n        <th>Name</th>\r\n        <th>Tags</th>\r\n        <th>Status</th>\r\n        <th>Actions</th>\r\n        <th>Messages</th>\r\n        <th>Date of Creation</th>\r\n        <th>Staff</th>\r\n        <th>Rating</th>\r\n        <th>Time</th>\r\n        <th>Note</th>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let contact of contactsListShow; let i = index\">\r\n          <td><input type=\"checkbox\" [(ngModel)]=\"contact.check\"></td>\r\n          <td>\r\n            <img [src]=\"contact.profile_image\" alt=\"\" class=\"profile-image\">\r\n          </td>\r\n          <td>{{contact.name}}</td>\r\n          <td>{{contact.tags}}</td>\r\n          <td>{{contact.status}}</td>\r\n          <td>{{contact.actions}}</td>\r\n          <td>{{contact.messages}}</td>\r\n          <td>\r\n             {{contact.date_of_creation | amTz:'America/Chicago'  }}\r\n          </td>\r\n          <td>{{contact.staff}}</td>\r\n          <td>{{contact.rating}}</td>\r\n          <td>{{contact.time}}s</td>\r\n          <td>{{contact.note}}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"chat\">\n  <div class=\"text-right\">Total time in Conversation: 30 mins</div>\n  \n  <div>\n    <table class=\"table table-bordered\">\n      <tr>\n        <td class=\"text-center\" style=\"width: 50%;font-size: 20px;font-weight: 600;\">Profile</td>\n        <td class=\"text-center\" style=\"font-size: 20px;font-weight: 600;\">Chat</td>\n      </tr>\n      \n      <tr>\n        <td>\n          <div class=\"slider-div\">\n            <slideshow [height]=\"'300px'\" [autoPlay]=\"true\" [showArrows]=\"true\" [imageUrls]=\"imageUrlArray\"\n            [autoPlayWaitForLazyLoad]=\"true\">\n            </slideshow>\n          </div>\n          <div *ngIf=\"userProfile\" class=\"row\">\n            <div class=\"col-md-6\">\n              <p>First Name: {{userProfile[\"first_name\"]}}</p>\n              <p>Last Name: {{userProfile['last_name']}}</p>\n              <p>Birthday: {{userProfile['dob'] | amDateFormat: 'YYYY-MM-DD' }}</p>\n              <p>Gender: {{userProfile['gender'] == 1 ? 'Man': 'Woman'}}</p>\n              <p>Orientation: {{userProfile['orientation'] == null ? '-': userProfile['orientation']}}</p>\n              <p>Education: {{userProfile['education'] == null || userProfile['education'] == '' ? '-': userProfile['education']}}</p>           \n            </div>\n            <div class=\"col-md-6\">\n              <p>Address: {{userProfile['address'] == null || userProfile['address'] == '' ? '-': userProfile['address']}}</p>\n              <p>City: {{userProfile['city'] == null || userProfile['city'] == '' ? '-': userProfile['city']}}</p>\n              <p>Country: {{userProfile['country'] == null || userProfile['country'] == '' ? '-': userProfile['country']}}</p>\n              <p>ZipCode: {{userProfile['zipcode'] == null || userProfile['zipcode'] == '' ? '-': userProfile['zipcode']}}</p>\n              <p>About Me: {{userProfile['about_me'] == null || userProfile['about_me'] == '' ? '-': userProfile['about_me']}}</p>\n              <p>Interest: {{userProfile['interest'] == null || userProfile['interest'] == '' ? '-': userProfile['interest']}}</p>\n            </div>\n          </div> \n        </td>\n        <td>\n\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\">\n              <label>Status:</label>\n              <label>{{contactInfo['status']['name']}}</label>\n            </div>\n            <div class=\"col-md-6\">\n              <label>Actions:</label>\n              <label>{{contactInfo['actions']['name']}}</label>\n            </div>\n            <div class=\"col-md-6\">\n              <label>Staff:</label>\n              <label>{{contactInfo['staff']['name']}}</label>\n            </div>\n            <div class=\"col-md-6\">\n              <label>Rating:</label>\n              <label>{{contactInfo['rating']}}</label>\n            </div>\n          </div>\n\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\">\n              <p>\n                <label>Tags</label>\n                <i class=\"fas fa-plus-circle\" style=\"cursor: pointer;font-size: 20px;\" (click)=\"clickAddTag()\"></i>\n              </p>\n              <p *ngIf=\"isAddTag\">\n                <select name=\"\" class=\"form-control\" style=\"margin-bottom: 10px;\" [(ngModel)]=\"selectedTagId\">\n                  <option value=\"-1\">Please Select tag</option>\n                  <option *ngFor=\"let tag of showTagList;\" [value]=\"tag.id\">{{tag.name}}</option>\n                </select>\n                <button class=\"btn btn-success\" (click)=\"addTag()\">Add</button>\n                <button class=\"btn btn-danger\" (click)=\"isAddTag = false;\">Cancel</button>\n              </p>\n              <ul>\n                <li *ngFor=\"let tag of contactInfo['tagsArray'];\">{{tag.name}}</li>\n              </ul>\n            </div>\n            <div class=\"col-md-6\">\n              <p>Note:</p> \n              <div>\n                <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"contactInfo['note']\"></textarea>\n                <button class=\"btn btn-success\" (click)=\"saveNote()\" style=\"margin-top: 10px;\">{{saveNoteBtnStr}}</button>\n              </div>\n            </div>\n          </div>\n        </td>\n        <td>\n          <div class=\"row\" style=\"border-bottom: solid 1px #dee2e6;padding-bottom: 15px;\">\n            <div class=\"col-md-8\">\n              <input type=\"text\" class=\"form-control\" placeholder=\"Search saved templates\" [(ngModel)]=\"searchTemplateStr\" (input)=\"searchTemplate()\">\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-primary\" (click)=\"searchTemplateStr = ''; searchTemplate();\">See All</button>\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-success\" [disabled]=\"showTemplates.length !== 0\" (click)=\"addNewTemplate()\">Add New</button>\n            </div>\n\n            <div class=\"col-md-12\" class=\"templates-div\">\n              <label *ngFor=\"let template of showTemplates\" class=\"template-item\">{{template.name}}</label>\n            </div>\n          </div>\n\n          <div class=\"row\" style=\"padding-top: 15px;\">\n            <div class=\"col-md-12\">\n              <textarea name=\"\" class=\"form-control\"></textarea>\n            </div>\n            <div class=\"col-md-12 text-right\">\n              <button class=\"btn btn-success\" style=\"margin-top: 15px;\">Enter</button>\n            </div>\n          </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n</div>"
 
 /***/ }),
 
-/***/ "./src/app/contacts/contacts.component.scss":
+/***/ "./src/app/chat/chat.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".contacts {\n  margin: 0px 50px;\n  padding-top: 20px; }\n  .contacts .profile-image {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    border: solid 2px; }\n  .contacts .advanced-filtering {\n    margin-top: 20px;\n    background: #888;\n    padding: 10px; }\n  .contacts .advanced-filtering .filter-item {\n      margin-top: 10px;\n      margin-bottom: 10px; }\n  .contacts .dropdown .dropdown-menu li {\n    padding: 5px;\n    cursor: pointer; }\n  .contacts .dropdown .dropdown-menu li:hover {\n      background: #888; }\n"
+module.exports = ".chat .slider-div {\n  width: 70%;\n  margin: auto; }\n\n.chat .templates-div {\n  max-height: 100px;\n  width: 100%;\n  padding: 10px;\n  overflow: scroll; }\n\n.chat .templates-div .template-item {\n    background: #aaa;\n    padding: 5px;\n    border-radius: 5px;\n    cursor: pointer;\n    margin: 3px;\n    height: 50px; }\n"
 
 /***/ }),
 
-/***/ "./src/app/contacts/contacts.component.ts":
+/***/ "./src/app/chat/chat.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactsComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_contacts_service__ = __webpack_require__("./src/app/shared/services/contacts.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_tag_service__ = __webpack_require__("./src/app/shared/services/tag.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_status_service__ = __webpack_require__("./src/app/shared/services/status.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_action_service__ = __webpack_require__("./src/app/shared/services/action.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_staff_service__ = __webpack_require__("./src/app/shared/services/staff.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_tag_service__ = __webpack_require__("./src/app/shared/services/tag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_status_service__ = __webpack_require__("./src/app/shared/services/status.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_action_service__ = __webpack_require__("./src/app/shared/services/action.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_staff_service__ = __webpack_require__("./src/app/shared/services/staff.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_services_template_service__ = __webpack_require__("./src/app/shared/services/template.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1258,13 +1271,211 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+var ChatComponent = /** @class */ (function () {
+    function ChatComponent(contactService, activedRoute, tagService, statusService, actionService, staffService, templateService) {
+        this.contactService = contactService;
+        this.activedRoute = activedRoute;
+        this.tagService = tagService;
+        this.statusService = statusService;
+        this.actionService = actionService;
+        this.staffService = staffService;
+        this.templateService = templateService;
+        this.userProfile = false;
+        this.saveNoteBtnStr = 'Save';
+        this.isAddTag = false;
+        this.tagList = [];
+        this.showTagList = [];
+        this.selectedTagId = -1;
+        this.templates = [];
+        this.showTemplates = [];
+        this.searchTemplateStr = '';
+        this.imageUrlArray = [
+            'https://cdn-images-1.medium.com/max/2000/1*y3c9ggOkOzdAr8JC7TUrEQ@2x.png',
+            'https://cdn.dribbble.com/users/575153/screenshots/3661919/thumb.gif'
+        ];
+        var me = this;
+        this.contactId = activedRoute.snapshot.params['contactId'];
+        this.userId = activedRoute.snapshot.params['userId'];
+        contactService.getUserProfile(this.userId).subscribe(function (data) {
+            if (data['error'] === 0) {
+                me.userProfile = data['data'][0];
+            }
+        });
+        contactService.getContact(this.contactId).subscribe(function (data) {
+            if (data['success'] === 1) {
+                me.contactInfo = data['data'][0];
+                me.statusService.getStatusName(me.contactInfo['status']).subscribe(function (status) {
+                    me.contactInfo['status'] = status['data'][0];
+                });
+                me.actionService.getActionName(me.contactInfo['actions']).subscribe(function (action) {
+                    me.contactInfo['actions'] = action['data'][0];
+                });
+                me.staffService.getStaffName(me.contactInfo['staff']).subscribe(function (staff) {
+                    me.contactInfo['staff'] = staff['data'][0];
+                });
+                var tagIds = me.contactInfo['tags'].split(',');
+                me.contactInfo['tagsArray'] = [];
+                tagIds.map(function (tagId) {
+                    me.tagService.getTagName(tagId).subscribe(function (tag) {
+                        me.contactInfo['tagsArray'].push(tag['data'][0]);
+                    });
+                });
+            }
+        });
+        this.tagService.getTagList().subscribe(function (data) {
+            if (data['success'] === 1) {
+                me.tagList = data['data'];
+            }
+        });
+        this.templateService.getTemplateList().subscribe(function (data) {
+            if (data['success'] === 1) {
+                me.templates = data['data'];
+                me.showTemplates = data['data'];
+            }
+        });
+    }
+    ChatComponent.prototype.ngOnInit = function () {
+    };
+    ChatComponent.prototype.saveNote = function () {
+        var me = this;
+        var contactData = {
+            note: this.contactInfo.note
+        };
+        this.saveNoteBtnStr = 'Saving...';
+        this.contactService.updateContact(this.contactId, contactData).subscribe(function (data) {
+            me.saveNoteBtnStr = 'Saved';
+        });
+    };
+    ChatComponent.prototype.clickAddTag = function () {
+        var me = this;
+        this.isAddTag = !this.isAddTag;
+        this.showTagList = [];
+        if (this.isAddTag) {
+            var tagIds = me.contactInfo['tags'].split(',');
+            this.tagList.map(function (tag) {
+                if (!tagIds.includes(tag['id'].toString())) {
+                    me.showTagList.push(tag);
+                }
+            });
+        }
+    };
+    ChatComponent.prototype.addTag = function () {
+        var me = this;
+        if (this.selectedTagId === -1) {
+            return;
+        }
+        this.tagList.map(function (tag) {
+            if (tag['id'].toString() === me.selectedTagId) {
+                me.contactInfo['tags'] = me.contactInfo['tags'] + ',' + me.selectedTagId;
+                var contactData = {
+                    tags: me.contactInfo['tags']
+                };
+                me.contactService.updateContact(me.contactId, contactData).subscribe(function (data) {
+                    me.contactInfo['tagsArray'].push(tag);
+                    me.isAddTag = false;
+                    me.clickAddTag();
+                });
+            }
+        });
+    };
+    ChatComponent.prototype.searchTemplate = function () {
+        var me = this;
+        this.showTemplates = this.templates.filter(function (template) {
+            return template['name'].toLowerCase().includes(me.searchTemplateStr.toLowerCase());
+        });
+    };
+    ChatComponent.prototype.addNewTemplate = function () {
+        var _this = this;
+        if (this.showTemplates.length !== 0) {
+            return;
+        }
+        var me = this;
+        var templatedata = {
+            name: me.searchTemplateStr
+        };
+        this.templateService.addNewTemplate(templatedata).subscribe(function (data1) {
+            _this.templateService.getTemplateList().subscribe(function (data) {
+                if (data['success'] === 1) {
+                    me.templates = data['data'];
+                    me.showTemplates = data['data'];
+                    me.searchTemplate();
+                }
+            });
+        });
+    };
+    ChatComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-chat',
+            template: __webpack_require__("./src/app/chat/chat.component.html"),
+            styles: [__webpack_require__("./src/app/chat/chat.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services_contacts_service__["a" /* ContactsService */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_3__shared_services_tag_service__["a" /* TagService */],
+            __WEBPACK_IMPORTED_MODULE_4__shared_services_status_service__["a" /* StatusService */],
+            __WEBPACK_IMPORTED_MODULE_5__shared_services_action_service__["a" /* ActionService */],
+            __WEBPACK_IMPORTED_MODULE_6__shared_services_staff_service__["a" /* StaffService */],
+            __WEBPACK_IMPORTED_MODULE_7__shared_services_template_service__["a" /* TemplateService */]])
+    ], ChatComponent);
+    return ChatComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/contacts/contacts.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"contacts\">\r\n  \r\n  <!-- <table class=\"table table-hover \" [mfData]=\"contactsList\" #mf=\"mfDataTable\" [mfRowsOnPage]=\"5\">\r\n    <thead>\r\n      <tr>\r\n        <th>Id</th>\r\n        <th>\r\n          <mfDefaultSorter by=\"first_name\">First Name</mfDefaultSorter>\r\n        </th>\r\n        <th>\r\n          <mfDefaultSorter by=\"last_name\">Last Name</mfDefaultSorter>\r\n        </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let contact of mf.data; let i = index\">\r\n        <td>{{i}}</td>\r\n        <td>{{contact['first_name']}}</td>\r\n        <td>{{contact['last_name']}}</td>\r\n      </tr>\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td colspan=\"4\">\r\n          <mfBootstrapPaginator [rowsOnPageSet]=\"[5,10,25]\"></mfBootstrapPaginator>\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table> -->\r\n  <div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n      <input type=\"text\" placeholder=\"Search Name\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"searchFilter\">\r\n    </div>\r\n    \r\n    <div class=\"col-md-2 btn btn-default\" (click)=\"isAdvancedFiltering = !isAdvancedFiltering ; filter()\">Advanced Filtering</div>\r\n\r\n    <div class=\"col-md-2 dropdown\">\r\n      <button class=\"btn btn-success\" data-toggle=\"dropdown\">Action</button>\r\n      <ul class=\"dropdown-menu\">\r\n        <li (click)=\"deleteSelected()\">Delete</li>\r\n        <li>Send Bulk Messages</li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row advanced-filtering\" *ngIf=\"isAdvancedFiltering\">\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"tag\" class=\"form-control\" [(ngModel)]=\"tagFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"status\" class=\"form-control\" [(ngModel)]=\"statusFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"actions\" class=\"form-control\" [(ngModel)]=\"actionsFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"messages\" class=\"form-control\" [(ngModel)]=\"messagesFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"date of creation\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"dateofcreationFilter\">\r\n    </div>\r\n\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"staff\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"staffFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"rate\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"ratingFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"time\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"timeFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"note\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"noteFilter\">\r\n    </div>\r\n  </div>\r\n  \r\n  <div class=\"contacts\">\r\n    <table class=\"table table-hover\">\r\n      <thead>\r\n        <th></th>\r\n        <th>Profile</th>\r\n        <th>Name</th>\r\n        <th>Tags</th>\r\n        <th>Status</th>\r\n        <th>Actions</th>\r\n        <th>Messages</th>\r\n        <th>Date of Creation</th>\r\n        <th>Staff</th>\r\n        <th>Rating</th>\r\n        <th>Time</th>\r\n        <th>Note</th>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let contact of contactsListShow; let i = index\">\r\n          <td><input type=\"checkbox\" [(ngModel)]=\"contact.check\"></td>\r\n          <td>\r\n            <img [src]=\"contact.profile_image\" alt=\"\" class=\"profile-image\" (click)=\"gotochat(contact.id, contact.user_id)\">\r\n          </td>\r\n          <td>{{contact.name}}</td>\r\n          <td>\r\n            <span *ngFor=\"let tag of contact['tagsArray'];\" class=\"tag\">\r\n              {{tag['name']}}\r\n            </span>\r\n          </td>\r\n          <td>{{contact.status}}</td>\r\n          <td>{{contact.actions}}</td>\r\n          <td>{{contact.messages}}</td>\r\n          <td>\r\n             {{contact.date_of_creation | amTz:'America/Chicago'  }}\r\n          </td>\r\n          <td>{{contact.staff}}</td>\r\n          <td>{{contact.rating}}</td>\r\n          <td>{{contact.time}}s</td>\r\n          <td>{{contact.note}}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/contacts/contacts.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = ".contacts {\n  margin: 0px 50px;\n  padding-top: 20px; }\n  .contacts .profile-image {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    border: solid 2px;\n    cursor: pointer; }\n  .contacts .advanced-filtering {\n    margin-top: 20px;\n    background: #888;\n    padding: 10px; }\n  .contacts .advanced-filtering .filter-item {\n      margin-top: 10px;\n      margin-bottom: 10px; }\n  .contacts .dropdown .dropdown-menu li {\n    padding: 5px;\n    cursor: pointer; }\n  .contacts .dropdown .dropdown-menu li:hover {\n      background: #888; }\n  .contacts .tag {\n    background: #aaa;\n    padding: 3px;\n    border-radius: 5px;\n    margin: 3px;\n    cursor: pointer; }\n"
+
+/***/ }),
+
+/***/ "./src/app/contacts/contacts.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_contacts_service__ = __webpack_require__("./src/app/shared/services/contacts.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_tag_service__ = __webpack_require__("./src/app/shared/services/tag.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_status_service__ = __webpack_require__("./src/app/shared/services/status.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_action_service__ = __webpack_require__("./src/app/shared/services/action.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_staff_service__ = __webpack_require__("./src/app/shared/services/staff.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
 var ContactsComponent = /** @class */ (function () {
-    function ContactsComponent(contactsService, tagService, statusService, actionService, staffService) {
+    function ContactsComponent(contactsService, tagService, statusService, actionService, staffService, router) {
         this.contactsService = contactsService;
         this.tagService = tagService;
         this.statusService = statusService;
         this.actionService = actionService;
         this.staffService = staffService;
+        this.router = router;
         this.contactsList = [];
         this.contactsListShow = [];
         this.isAdvancedFiltering = false;
@@ -1299,6 +1510,14 @@ var ContactsComponent = /** @class */ (function () {
                     }
                 });
                 me.contactsList.map(function (contact) {
+                    // console.log(contact['tags']);
+                    var tagIds = contact['tags'].split(',');
+                    contact['tagsArray'] = [];
+                    tagIds.map(function (tagId) {
+                        me.tagService.getTagName(tagId).subscribe(function (tag) {
+                            contact['tagsArray'].push(tag['data'][0]);
+                        });
+                    });
                     me.tagService.getTagName(contact['tags']).subscribe(function (tag) {
                         contact['tags'] = tag['data'][0]['name'];
                     });
@@ -1356,6 +1575,9 @@ var ContactsComponent = /** @class */ (function () {
             });
         });
     };
+    ContactsComponent.prototype.gotochat = function (contactId, userId) {
+        this.router.navigate(['/dashboard/chat/' + contactId + '/' + userId]);
+    };
     ContactsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-contacts',
@@ -1366,7 +1588,8 @@ var ContactsComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_2__shared_services_tag_service__["a" /* TagService */],
             __WEBPACK_IMPORTED_MODULE_3__shared_services_status_service__["a" /* StatusService */],
             __WEBPACK_IMPORTED_MODULE_4__shared_services_action_service__["a" /* ActionService */],
-            __WEBPACK_IMPORTED_MODULE_5__shared_services_staff_service__["a" /* StaffService */]])
+            __WEBPACK_IMPORTED_MODULE_5__shared_services_staff_service__["a" /* StaffService */],
+            __WEBPACK_IMPORTED_MODULE_6__angular_router__["b" /* Router */]])
     ], ContactsComponent);
     return ContactsComponent;
 }());
@@ -1501,7 +1724,7 @@ var HeaderComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/dashboard/header/header.component.html"),
             styles: [__webpack_require__("./src/app/dashboard/header/header.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_2__angular_common__["Location"],
             __WEBPACK_IMPORTED_MODULE_3__shared_services_profile_service__["a" /* ProfileService */]])
     ], HeaderComponent);
@@ -1648,7 +1871,7 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/login/login.component.html"),
             styles: [__webpack_require__("./src/app/login/login.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_2__shared_services_login_service__["a" /* LoginService */]])
     ], LoginComponent);
     return LoginComponent;
@@ -1799,8 +2022,8 @@ var ProfileComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return config; });
 var config = {
-    // baseURL: 'http://localhost:3000/'
-    baseURL: 'http://34.220.128.209:3000/'
+    baseURL: 'http://localhost:3000/'
+    // baseURL: 'http://34.220.128.209:3000/'
 };
 
 
@@ -1891,7 +2114,7 @@ var AuthguardService = /** @class */ (function () {
     };
     AuthguardService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_2__login_service__["a" /* LoginService */]])
     ], AuthguardService);
     return AuthguardService;
@@ -1932,8 +2155,17 @@ var ContactsService = /** @class */ (function () {
         // return this.http.get(config.baseURL + 'remote/getUsers', { headers: this.header });
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name, { headers: this.header });
     };
+    ContactsService.prototype.getContact = function (contactId) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + contactId, { headers: this.header });
+    };
     ContactsService.prototype.delete = function (id) {
         return this.http.delete(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + id, { headers: this.header });
+    };
+    ContactsService.prototype.getUserProfile = function (userId) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserProfile/' + userId, { headers: this.header });
+    };
+    ContactsService.prototype.updateContact = function (contactId, contactData) {
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + contactId, contactData, { headers: this.header });
     };
     ContactsService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
