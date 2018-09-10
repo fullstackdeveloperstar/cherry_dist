@@ -1355,8 +1355,8 @@ var ChatComponent = /** @class */ (function () {
                 }
                 me.chatContentsArray.push({
                     type: chatItem['message_type'],
-                    staffId: me.staffId,
-                    userId: me.userId,
+                    staffId: chatItem['staff_id'],
+                    userId: chatItem['user_id'],
                     msg: chatItem['message'],
                     isMedia: chatItem['isMedia'] === 0 ? false : true
                 });
