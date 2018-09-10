@@ -1247,14 +1247,14 @@ var AppModule = /** @class */ (function () {
 /***/ "./src/app/chat/chat.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"chat\">\n  <div class=\"text-right\">Total time in Conversation: {{chatTime}}s</div>\n  \n  <div>\n    <table class=\"table table-bordered\">\n      <tr>\n        <td class=\"text-center\" style=\"width: 50%;font-size: 20px;font-weight: 600;\">Profile</td>\n        <td class=\"text-center\" style=\"font-size: 20px;font-weight: 600;\">Chat</td>\n      </tr>\n      \n      <tr>\n        <td>\n          <div class=\"slider-div\">\n            <slideshow [height]=\"'300px'\" [autoPlay]=\"true\" [showArrows]=\"true\" [imageUrls]=\"imageUrlArray\"\n            [autoPlayWaitForLazyLoad]=\"true\">\n            </slideshow>\n          </div>\n          <div *ngIf=\"userProfile\" class=\"row\">\n            <div class=\"col-md-6\">\n              <p>First Name: {{userProfile[\"first_name\"]}}</p>\n              <p>Last Name: {{userProfile['last_name']}}</p>\n              <p>Birthday: {{userProfile['dob'] | amDateFormat: 'YYYY-MM-DD' }}</p>\n              <p>Gender: {{userProfile['gender'] == 1 ? 'Man': 'Woman'}}</p>\n              <p>Orientation: {{userProfile['orientation'] == null ? '-': userProfile['orientation']}}</p>\n              <p>Education: {{userProfile['education'] == null || userProfile['education'] == '' ? '-': userProfile['education']}}</p>           \n            </div>\n            <div class=\"col-md-6\">\n              <p>Address: {{userProfile['address'] == null || userProfile['address'] == '' ? '-': userProfile['address']}}</p>\n              <p>City: {{userProfile['city'] == null || userProfile['city'] == '' ? '-': userProfile['city']}}</p>\n              <p>Country: {{userProfile['country'] == null || userProfile['country'] == '' ? '-': userProfile['country']}}</p>\n              <p>ZipCode: {{userProfile['zipcode'] == null || userProfile['zipcode'] == '' ? '-': userProfile['zipcode']}}</p>\n              <p>About Me: {{userProfile['about_me'] == null || userProfile['about_me'] == '' ? '-': userProfile['about_me']}}</p>\n              <p>Interest: {{userProfile['interest'] == null || userProfile['interest'] == '' ? '-': userProfile['interest']}}</p>\n            </div>\n          </div> \n        </td>\n        <td style=\"position: relative;\">\n          <div class=\"chat-content\" style=\"position: absolute;top: 0; left: 0;height: 100%;width: 100%; overflow: scroll;\">\n            <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n                  [ngClass]=\"{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId,\n                              'othermsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId}\">\n              <div class=\"chat-content\" *ngIf=\"!chatItem.isMedia\">{{chatItem.msg}}</div>\n              <div class=\"chat-content\" *ngIf=\"chatItem.isMedia\"><img [src]=\"chatItem.msg\" style=\"max-width: 100%;\"></div>\n            </div>\n            <div id='scrollToView' style=\"\"></div>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Status:</label>\n              <!-- <label>{{contactInfo['status']['name']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.status\" (change)=\"changeStatus()\">\n                <option *ngFor=\"let status of statusArray;\" [value]=\"status.id\">{{status.name}}</option>\n              </select>\n            </div>\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Actions:</label>\n              <!-- <label>{{contactInfo['actions']['name']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.actions\" (change)=\"changeAction()\">\n                <option *ngFor=\"let action of actionArray;\" [value]=\"action.id\">{{action.name}}</option>\n              </select>\n            </div>\n            <div class=\"col-md-6\">\n              <label>Staff:</label>\n              <label>{{contactInfo['staff']['name']}}</label>\n            </div>\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Rating:</label>\n              <!-- <label>{{contactInfo['rating']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.rating\" (change)=\"changeRating()\">\n                <option *ngFor=\"let i of ratingArray;\">{{i}}</option>\n              </select>\n            </div>\n          </div>\n\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\">\n              <p>\n                <label>Tags</label>\n                <i class=\"fas fa-plus-circle\" style=\"cursor: pointer;font-size: 20px;\" (click)=\"clickAddTag()\"></i>\n              </p>\n              <p *ngIf=\"isAddTag\">\n                <select name=\"\" class=\"form-control\" style=\"margin-bottom: 10px;\" [(ngModel)]=\"selectedTagId\">\n                  <option value=\"-1\">Please Select tag</option>\n                  <option *ngFor=\"let tag of showTagList;\" [value]=\"tag.id\">{{tag.name}}</option>\n                </select>\n                <button class=\"btn btn-success\" (click)=\"addTag()\">Add</button>\n                <button class=\"btn btn-danger\" (click)=\"isAddTag = false;\">Cancel</button>\n              </p>\n              <ul>\n                <li *ngFor=\"let tag of contactInfo['tagsArray'];\">{{tag.name}}</li>\n              </ul>\n            </div>\n            <div class=\"col-md-6\">\n              <p>Note:</p> \n              <div>\n                <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"contactInfo['note']\"></textarea>\n                <button class=\"btn btn-success\" (click)=\"saveNote()\" style=\"margin-top: 10px;\">{{saveNoteBtnStr}}</button>\n              </div>\n            </div>\n          </div>\n        </td>\n        <td>\n          <div class=\"row\" style=\"border-bottom: solid 1px #dee2e6;padding-bottom: 15px;\">\n            <div class=\"col-md-8\">\n              <input type=\"text\" class=\"form-control\" placeholder=\"Search saved templates\" [(ngModel)]=\"searchTemplateStr\" (input)=\"searchTemplate()\">\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-primary\" (click)=\"searchTemplateStr = ''; searchTemplate();\">See All</button>\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-success\" [disabled]=\"showTemplates.length !== 0\" (click)=\"addNewTemplate()\">Add New</button>\n            </div>\n\n            <div class=\"col-md-12\" class=\"templates-div\">\n              <label *ngFor=\"let template of showTemplates\" class=\"template-item\" (click)=\"clickTempItem(template.name)\">{{template.name}}</label>\n            </div>\n          </div>\n\n          <div class=\"row\" style=\"padding-top: 15px;\">\n            <div class=\"col-md-12\">\n              <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"sendMessageStr\" (keyup.enter)=\"sendMessage()\"></textarea>\n            </div>\n            <div class=\"col-md-12 text-right\">\n              <button class=\"btn btn-default\" style=\"margin-top: 15px;\" (click)=\"selectImage()\"><i class=\"fa fa-image\"></i></button>\n              <input type=\"file\" accept=\".jpg, .png, .jpeg\" id=\"profile-imgage-upload\" style=\"display: none;\" (change)=\"fileChange($event)\">\n              <button class=\"btn btn-success\" style=\"margin-top: 15px;\" (click)=\"sendMessage()\">Enter</button>\n            </div>\n          </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n</div>"
+module.exports = "<div class=\"chat\">\n  <div class=\"text-right\">Total time in Conversation: {{chatTime}}s</div>\n  \n  <div>\n    <table class=\"table table-bordered\">\n      <tr>\n        <td class=\"text-center\" style=\"width: 50%;font-size: 20px;font-weight: 600;\">Profile</td>\n        <td class=\"text-center\" style=\"font-size: 20px;font-weight: 600;\">Chat</td>\n      </tr>\n      \n      <tr>\n        <td>\n          <div class=\"slider-div\">\n            <slideshow [height]=\"'300px'\" [autoPlay]=\"true\" [showArrows]=\"true\" [imageUrls]=\"imageUrlArray\"\n            [autoPlayWaitForLazyLoad]=\"true\">\n            </slideshow>\n          </div>\n          <div *ngIf=\"userProfile\" class=\"row\">\n            <div class=\"col-md-6\">\n              <p>First Name: {{userProfile[\"first_name\"]}}</p>\n              <p>Last Name: {{userProfile['last_name']}}</p>\n              <p>Birthday: {{userProfile['dob'] | amDateFormat: 'YYYY-MM-DD' }}</p>\n              <p>Gender: {{userProfile['gender'] == 1 ? 'Man': 'Woman'}}</p>\n              <p>Orientation: {{userProfile['orientation'] == null ? '-': userProfile['orientation']}}</p>\n              <p>Education: {{userProfile['education'] == null || userProfile['education'] == '' ? '-': userProfile['education']}}</p>           \n            </div>\n            <div class=\"col-md-6\">\n              <p>Address: {{userProfile['address'] == null || userProfile['address'] == '' ? '-': userProfile['address']}}</p>\n              <p>City: {{userProfile['city'] == null || userProfile['city'] == '' ? '-': userProfile['city']}}</p>\n              <p>Country: {{userProfile['country'] == null || userProfile['country'] == '' ? '-': userProfile['country']}}</p>\n              <p>ZipCode: {{userProfile['zipcode'] == null || userProfile['zipcode'] == '' ? '-': userProfile['zipcode']}}</p>\n              <p>About Me: {{userProfile['about_me'] == null || userProfile['about_me'] == '' ? '-': userProfile['about_me']}}</p>\n              <p>Interest: {{userProfile['interest'] == null || userProfile['interest'] == '' ? '-': userProfile['interest']}}</p>\n            </div>\n          </div> \n        </td>\n        <td style=\"position: relative;\">\n          <div class=\"chat-content\" style=\"position: absolute;top: 0; left: 0;height: 100%;width: 100%; overflow: scroll;\">\n            <!-- <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n                  [ngClass]=\"{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId,\n                              'othermsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId}\"> -->\n            <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n                  [ngClass]=\"{'selfmsg': chatItem.type == 'staffTouser' ,\n                              'othermsg': chatItem.type == 'userTostaff' }\">\n                <div class=\"message-content\">\n                  <div class=\"username\" *ngIf=\"chatItem.type == 'staffTouser'\">\n                    <span *ngFor=\"let staffItem of staffArray;\">\n                      <span *ngIf=\"staffItem.id == chatItem.staffId \">{{staffItem.name}}</span>\n                    </span>\n                  </div>\n\n                  <div class=\"username\" *ngIf=\"chatItem.type == 'userTostaff'\">\n                    <span *ngFor=\"let userItem of profileArray;\">\n                      <span *ngIf=\"userItem.id == chatItem.userId \">{{userItem.first_name + ' '+ userItem.last_name}}</span>\n                    </span>\n                  </div>\n                  <div class=\"chat-content\" *ngIf=\"!chatItem.isMedia\">{{chatItem.msg}}</div>\n                  <div class=\"chat-content\" *ngIf=\"chatItem.isMedia\"><img [src]=\"chatItem.msg\" style=\"max-width: 100%;\"></div>\n                </div>\n            </div>\n            <div id='scrollToView' style=\"\"></div>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Status:</label>\n              <!-- <label>{{contactInfo['status']['name']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.status\" (change)=\"changeStatus()\">\n                <option *ngFor=\"let status of statusArray;\" [value]=\"status.id\">{{status.name}}</option>\n              </select>\n            </div>\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Actions:</label>\n              <!-- <label>{{contactInfo['actions']['name']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.actions\" (change)=\"changeAction()\">\n                <option *ngFor=\"let action of actionArray;\" [value]=\"action.id\">{{action.name}}</option>\n              </select>\n            </div>\n            <div class=\"col-md-6\">\n              <label>Staff:</label>\n              <label>{{contactInfo['staff']['name']}}</label>\n            </div>\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Rating:</label>\n              <!-- <label>{{contactInfo['rating']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.rating\" (change)=\"changeRating()\">\n                <option *ngFor=\"let i of ratingArray;\">{{i}}</option>\n              </select>\n            </div>\n          </div>\n\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\">\n              <p>\n                <label>Tags</label>\n                <i class=\"fas fa-plus-circle\" style=\"cursor: pointer;font-size: 20px;\" (click)=\"clickAddTag()\"></i>\n              </p>\n              <p *ngIf=\"isAddTag\">\n                <select name=\"\" class=\"form-control\" style=\"margin-bottom: 10px;\" [(ngModel)]=\"selectedTagId\">\n                  <option value=\"-1\">Please Select tag</option>\n                  <option *ngFor=\"let tag of showTagList;\" [value]=\"tag.id\">{{tag.name}}</option>\n                </select>\n                <button class=\"btn btn-success\" (click)=\"addTag()\">Add</button>\n                <button class=\"btn btn-danger\" (click)=\"isAddTag = false;\">Cancel</button>\n              </p>\n              <ul>\n                <li *ngFor=\"let tag of contactInfo['tagsArray'];\">{{tag.name}}</li>\n              </ul>\n            </div>\n            <div class=\"col-md-6\">\n              <p>Note:</p> \n              <div>\n                <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"contactInfo['note']\"></textarea>\n                <button class=\"btn btn-success\" (click)=\"saveNote()\" style=\"margin-top: 10px;\">{{saveNoteBtnStr}}</button>\n              </div>\n            </div>\n          </div>\n        </td>\n        <td>\n          <div class=\"row\" style=\"border-bottom: solid 1px #dee2e6;padding-bottom: 15px;\">\n            <div class=\"col-md-8\">\n              <input type=\"text\" class=\"form-control\" placeholder=\"Search saved templates\" [(ngModel)]=\"searchTemplateStr\" (input)=\"searchTemplate()\">\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-primary\" (click)=\"searchTemplateStr = ''; searchTemplate();\">See All</button>\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-success\" [disabled]=\"showTemplates.length !== 0\" (click)=\"addNewTemplate()\">Add New</button>\n            </div>\n\n            <div class=\"col-md-12\" class=\"templates-div\">\n              <label *ngFor=\"let template of showTemplates\" class=\"template-item\" (click)=\"clickTempItem(template.name)\">{{template.name}}</label>\n            </div>\n          </div>\n\n          <div class=\"row\" style=\"padding-top: 15px;\">\n            <div class=\"col-md-12\">\n              <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"sendMessageStr\" (keyup.enter)=\"sendMessage()\"></textarea>\n            </div>\n            <div class=\"col-md-12 text-right\">\n              <button class=\"btn btn-default\" style=\"margin-top: 15px;\" (click)=\"selectImage()\"><i class=\"fa fa-image\"></i></button>\n              <input type=\"file\" accept=\".jpg, .png, .jpeg\" id=\"profile-imgage-upload\" style=\"display: none;\" (change)=\"fileChange($event)\">\n              <button class=\"btn btn-success\" style=\"margin-top: 15px;\" (click)=\"sendMessage()\">Enter</button>\n            </div>\n          </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n</div>"
 
 /***/ }),
 
 /***/ "./src/app/chat/chat.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".chat .slider-div {\n  width: 70%;\n  margin: auto; }\n\n.chat .templates-div {\n  max-height: 100px;\n  width: 100%;\n  padding: 10px;\n  overflow: scroll; }\n\n.chat .templates-div .template-item {\n    background: #aaa;\n    padding: 5px;\n    border-radius: 5px;\n    cursor: pointer;\n    margin: 3px;\n    height: 50px; }\n\n.chat .chat-content-item {\n  width: 100%;\n  margin-top: 10px; }\n\n.chat .selfmsg {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end; }\n\n.chat .selfmsg .chat-content {\n    width: 80%;\n    color: black;\n    background: #ddd;\n    padding: 10px;\n    border-radius: 5px;\n    font-weight: 600; }\n\n.chat .othermsg {\n  width: 100%; }\n\n.chat .othermsg .chat-content {\n    width: 80%;\n    background: #0f58dc;\n    color: white;\n    padding: 10px;\n    margin: 10px;\n    border-radius: 5px; }\n"
+module.exports = ".chat .slider-div {\n  width: 70%;\n  margin: auto; }\n\n.chat .templates-div {\n  max-height: 100px;\n  width: 100%;\n  padding: 10px;\n  overflow: scroll; }\n\n.chat .templates-div .template-item {\n    background: #aaa;\n    padding: 5px;\n    border-radius: 5px;\n    cursor: pointer;\n    margin: 3px;\n    height: 50px; }\n\n.chat .chat-content-item {\n  width: 100%;\n  margin-top: 10px; }\n\n.chat .selfmsg {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end; }\n\n.chat .selfmsg .chat-content {\n    color: black;\n    background: #ddd;\n    padding: 10px;\n    border-radius: 5px;\n    font-weight: 600; }\n\n.chat .othermsg {\n  width: 100%; }\n\n.chat .othermsg .chat-content {\n    background: #0f58dc;\n    color: white;\n    padding: 10px;\n    margin: 10px;\n    border-radius: 5px; }\n\n.chat .othermsg .username {\n    margin-left: 10px; }\n\n.chat .message-content {\n  width: 80%; }\n"
 
 /***/ }),
 
@@ -1317,6 +1317,8 @@ var ChatComponent = /** @class */ (function () {
         this.actionArray = [];
         this.ratingArray = [0, 1, 2, 3, 4, 5];
         this.chatTime = 0;
+        this.staffArray = [];
+        this.profileArray = [];
         this.imageUrlArray = [
             'https://cdn-images-1.medium.com/max/2000/1*y3c9ggOkOzdAr8JC7TUrEQ@2x.png',
             'https://cdn.dribbble.com/users/575153/screenshots/3661919/thumb.gif'
@@ -1325,8 +1327,32 @@ var ChatComponent = /** @class */ (function () {
         this.contactId = activedRoute.snapshot.params['contactId'];
         this.userId = activedRoute.snapshot.params['userId'];
         this.staffId = localStorage.getItem('userId');
+        this.staffService.getStaffList().subscribe(function (staffs) {
+            me.staffArray = staffs['data'];
+        });
         this.chatService.loadChatContent(this.staffId, this.userId).subscribe(function (chatContents) {
             chatContents['data'].map(function (chatItem) {
+                var username = '';
+                if (chatItem['message_type'] === 'userTostaff') {
+                    contactService.getUserProfile(chatItem['user_id']).subscribe(function (data) {
+                        if (data['error'] === 0) {
+                            // me.userProfile = data['data'][0];
+                            // username = data['data'][0]['first_name'] + data['data'][0]['first_name'];
+                            // console.log('user profile');
+                            // console.log(data);
+                            // me.profileArray.push(data['data'][0]);
+                            var exist = false;
+                            me.profileArray.map(function (temp) {
+                                if (temp.id === data['data'][0]['id']) {
+                                    exist = true;
+                                }
+                            });
+                            if (!exist) {
+                                me.profileArray.push(data['data'][0]);
+                            }
+                        }
+                    });
+                }
                 me.chatContentsArray.push({
                     type: chatItem['message_type'],
                     staffId: me.staffId,
@@ -1359,10 +1385,10 @@ var ChatComponent = /** @class */ (function () {
                 me.chatTimeIntervarl = setInterval(function () {
                     me.chatTime++;
                     me.contactService.updateContact(me.contactId, { time: me.chatTime }).subscribe(function (data1) {
-                        console.log(data1);
+                        // console.log(data1);
                     });
                 }, 1000);
-                me.staffService.getStaffName(me.staffId).subscribe(function (staff) {
+                me.staffService.getStaff(me.staffId).subscribe(function (staff) {
                     me.contactInfo['staff'] = staff['data'][0];
                     me.staffId = staff['data'][0]['id'];
                     me.contactService.updateContact(me.contactId, { staff: me.staffId, status: 2 }).subscribe(function (data1) {
@@ -1411,7 +1437,8 @@ var ChatComponent = /** @class */ (function () {
         var me = this;
         this.chatService.messages.subscribe(function (msg) {
             console.log(msg);
-            if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
+            // if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
+            if (msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') {
                 me.chatContentsArray.push(msg.text);
                 var elmnt = document.getElementById('scrollToView');
                 // elmnt.scrollIntoView();
@@ -1570,14 +1597,14 @@ var ChatComponent = /** @class */ (function () {
 /***/ "./src/app/chatdemo/chatdemo.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <div class=\"col-md-3\">\n      <label for=\"\">StaffId</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"staffId\" [(ngModel)]=\"staffId\" disabled>\n    </div>\n    <div class=\"col-md-3\">\n      <label for=\"\">UserId</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"userId\" [(ngModel)]='userId' disabled>\n    </div>\n  </div>\n  <div class=\"row\" style=\"margin-top: 20px;\" *ngIf=\"staffId && userId\">\n    <div class=\"col-md-12\">\n      <div class=\"chat-content-div\">\n        <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n          [ngClass]=\"{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId,\n                      'othermsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId}\">\n          <div class=\"chat-content\" *ngIf=\"!chatItem.isMedia\">{{chatItem.msg}}</div>\n          <div class=\"chat-content\" *ngIf=\"chatItem.isMedia\"><img [src]=\"chatItem.msg\" style=\"max-width: 100%;\"></div>\n        </div>\n        <div id='scrollToView'></div>\n      </div>\n    </div>\n  </div>\n  <div class=\"row\" style=\"margin-top: 20px;\" *ngIf=\"staffId && userId\">\n    <div class=\"col-md-10\">\n      <input type=\"text\" class=\"form-control\" placeholder=\"Message\" [(ngModel)]=\"sendMessageStr\" (keyup.enter)=\"sendMessage()\">\n    </div>\n    <div class=\"col-md-2\">\n      <button class=\"btn btn-success\" (click)=\"sendMessage()\">Send</button>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <div class=\"col-md-3\">\n      <label for=\"\">StaffId</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"staffId\" [(ngModel)]=\"staffId\" disabled>\n    </div>\n    <div class=\"col-md-3\">\n      <label for=\"\">UserId</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"userId\" [(ngModel)]='userId' disabled>\n    </div>\n  </div>\n  <!-- <div class=\"row\" style=\"margin-top: 20px;\" *ngIf=\"staffId && userId\"> -->\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <div class=\"col-md-12\">\n      <div class=\"chat-content-div\">\n        <!-- <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n          [ngClass]=\"{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId,\n                      'othermsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId}\"> -->\n      <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n          [ngClass]=\"{'selfmsg': chatItem.type == 'userTostaff',\n                      'othermsg': chatItem.type == 'staffTouser'}\">\n          \n          <div class=\"message-content\">\n            <div class=\"username\" *ngIf=\"chatItem.type == 'userTostaff'\">\n              <span *ngFor=\"let userItem of profileArray;\">\n                <span *ngIf=\"userItem.id == chatItem.userId \">{{userItem.first_name + ' '+ userItem.last_name}}</span>\n              </span>\n            </div>\n\n            <div class=\"username\" *ngIf=\"chatItem.type == 'staffTouser'\">\n              <span *ngFor=\"let staffItem of staffArray;\">\n                <span *ngIf=\"staffItem.id == chatItem.staffId \">{{staffItem.name}}</span>\n              </span>\n            </div>\n\n            <div class=\"chat-content\" *ngIf=\"!chatItem.isMedia\">{{chatItem.msg}}</div>\n            <div class=\"chat-content\" *ngIf=\"chatItem.isMedia\"><img [src]=\"chatItem.msg\" style=\"max-width: 100%;\"></div>\n          </div>\n        </div>\n        <div id='scrollToView'></div>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"row\" style=\"margin-top: 20px;\" *ngIf=\"staffId && userId\"> -->\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <div class=\"col-md-10\">\n      <input type=\"text\" class=\"form-control\" placeholder=\"Message\" [(ngModel)]=\"sendMessageStr\" (keyup.enter)=\"sendMessage()\">\n    </div>\n    <div class=\"col-md-2\">\n      <button class=\"btn btn-success\" (click)=\"sendMessage()\">Send</button>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
 /***/ "./src/app/chatdemo/chatdemo.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".chat-content-div {\n  width: 100%;\n  height: 500px;\n  border: solid 1px #888;\n  border-radius: 5px;\n  overflow: scroll; }\n\n.chat-content-item {\n  width: 100%;\n  margin-top: 10px; }\n\n.selfmsg {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end; }\n\n.selfmsg .chat-content {\n    width: 80%;\n    color: black;\n    background: #ddd;\n    padding: 10px;\n    border-radius: 5px;\n    font-weight: 600; }\n\n.othermsg {\n  width: 100%; }\n\n.othermsg .chat-content {\n    width: 80%;\n    background: #0f58dc;\n    color: white;\n    padding: 10px;\n    margin: 10px;\n    border-radius: 5px; }\n"
+module.exports = ".chat-content-div {\n  width: 100%;\n  height: 500px;\n  border: solid 1px #888;\n  border-radius: 5px;\n  overflow: scroll; }\n\n.chat-content-item {\n  width: 100%;\n  margin-top: 10px; }\n\n.selfmsg {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end; }\n\n.selfmsg .chat-content {\n    color: black;\n    background: #ddd;\n    padding: 10px;\n    border-radius: 5px;\n    font-weight: 600; }\n\n.othermsg {\n  width: 100%; }\n\n.othermsg .chat-content {\n    background: #0f58dc;\n    color: white;\n    padding: 10px;\n    margin: 10px;\n    border-radius: 5px; }\n\n.othermsg .username {\n    margin-left: 10px; }\n\n.message-content {\n  width: 80%; }\n"
 
 /***/ }),
 
@@ -1590,6 +1617,7 @@ module.exports = ".chat-content-div {\n  width: 100%;\n  height: 500px;\n  borde
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_chat_service__ = __webpack_require__("./src/app/shared/services/chat.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_contacts_service__ = __webpack_require__("./src/app/shared/services/contacts.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_staff_service__ = __webpack_require__("./src/app/shared/services/staff.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1603,18 +1631,63 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ChatdemoComponent = /** @class */ (function () {
-    function ChatdemoComponent(chatService, activedRoute, contactService) {
+    function ChatdemoComponent(chatService, activedRoute, contactService, staffService) {
         this.chatService = chatService;
         this.activedRoute = activedRoute;
         this.contactService = contactService;
+        this.staffService = staffService;
         this.chatContentsArray = [];
         this.sendMessageStr = '';
+        this.staffArray = [];
+        this.profileArray = [];
         var me = this;
         this.userId = activedRoute.snapshot.params['userId'];
         var contactData = {
             status: 1
         };
+        this.staffService.getStaffList().subscribe(function (staffs) {
+            me.staffArray = staffs['data'];
+            console.log(me.staffArray);
+        });
+        this.chatService.loadChatContent(this.staffId, this.userId).subscribe(function (chatContents) {
+            chatContents['data'].map(function (chatItem) {
+                var username = '';
+                if (chatItem['message_type'] === 'userTostaff') {
+                    contactService.getUserProfile(chatItem['user_id']).subscribe(function (data) {
+                        if (data['error'] === 0) {
+                            // me.userProfile = data['data'][0];
+                            // username = data['data'][0]['first_name'] + data['data'][0]['first_name'];
+                            // console.log('user profile');
+                            // console.log(data);
+                            // me.profileArray.push(data['data'][0]);
+                            var exist = false;
+                            me.profileArray.map(function (temp) {
+                                if (temp.id === data['data'][0]['id']) {
+                                    exist = true;
+                                }
+                            });
+                            if (!exist) {
+                                me.profileArray.push(data['data'][0]);
+                            }
+                        }
+                    });
+                }
+                me.chatContentsArray.push({
+                    type: chatItem['message_type'],
+                    staffId: chatItem['staff_id'],
+                    userId: chatItem['user_id'],
+                    msg: chatItem['message'],
+                    isMedia: chatItem['isMedia'] === 0 ? false : true
+                });
+            });
+            var elmnt = document.getElementById('scrollToView');
+            // elmnt.scrollIntoView();
+            setTimeout(function () {
+                elmnt.scrollIntoView();
+            }, 1000);
+        });
         this.contactService.updateByUserId(this.userId, contactData).subscribe(function (data) {
             if (data['success'] === 1) {
                 me.chatService.sendMsg({
@@ -1622,11 +1695,28 @@ var ChatdemoComponent = /** @class */ (function () {
                 });
             }
         });
+        // this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
+        //   chatContents['data'].map(chatItem => {
+        //     me.chatContentsArray.push({
+        //       type: chatItem['message_type'],
+        //       staffId: me.staffId,
+        //       userId: me.userId,
+        //       msg: chatItem['message'],
+        //       isMedia: chatItem['isMedia'] === 0 ? false : true
+        //     });
+        //   });
+        //   var elmnt = document.getElementById('scrollToView');
+        //   // elmnt.scrollIntoView();
+        //   setTimeout(() => {
+        //     elmnt.scrollIntoView();
+        //   }, 1000);
+        // });
     }
     ChatdemoComponent.prototype.ngOnInit = function () {
         var me = this;
         this.chatService.messages.subscribe(function (msg) {
-            if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
+            // if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
+            if (msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') {
                 me.chatContentsArray.push(msg.text);
                 var elmnt = document.getElementById('scrollToView');
                 setTimeout(function () {
@@ -1635,8 +1725,8 @@ var ChatdemoComponent = /** @class */ (function () {
             }
             if (msg.text.type === 'startChat' && msg.text.userId.toString() === me.userId.toString()) {
                 me.staffId = msg.text.staffId;
-                console.log(msg);
-                console.log(me.staffId);
+                // console.log(msg);
+                // console.log(me.staffId);
             }
         });
     };
@@ -1661,7 +1751,8 @@ var ChatdemoComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services_chat_service__["a" /* ChatService */],
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_3__shared_services_contacts_service__["a" /* ContactsService */]])
+            __WEBPACK_IMPORTED_MODULE_3__shared_services_contacts_service__["a" /* ContactsService */],
+            __WEBPACK_IMPORTED_MODULE_4__shared_services_staff_service__["a" /* StaffService */]])
     ], ChatdemoComponent);
     return ChatdemoComponent;
 }());
@@ -1776,7 +1867,7 @@ var ContactsComponent = /** @class */ (function () {
                     me.actionService.getActionName(contact['actions']).subscribe(function (action) {
                         contact['actions'] = action['data'][0]['name'];
                     });
-                    me.staffService.getStaffName(contact['staff']).subscribe(function (staff) {
+                    me.staffService.getStaff(contact['staff']).subscribe(function (staff) {
                         contact['staffName'] = staff['data'][0]['name'];
                     });
                     me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(function (chat) {
@@ -2454,7 +2545,8 @@ var ChatService = /** @class */ (function () {
         return this.http.post(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'upload', formdata);
     };
     ChatService.prototype.loadChatContent = function (staffId, userId) {
-        return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/chart_' + staffId + '_' + userId, { headers: this.header });
+        // return this.http.get(config.baseURL + 'api/chart_' + staffId + '_' + userId, {headers: this.header});
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/chart', { headers: this.header });
     };
     ChatService.prototype.getLastMsg = function (staffId, userId) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/last/chart_' + staffId + '_' + userId);
@@ -2654,7 +2746,7 @@ var StaffService = /** @class */ (function () {
     StaffService.prototype.editStaff = function (editStaff) {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + editStaff.id, editStaff, { headers: this.header });
     };
-    StaffService.prototype.getStaffName = function (staffId) {
+    StaffService.prototype.getStaff = function (staffId) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + staffId, { headers: this.header });
     };
     StaffService = __decorate([
