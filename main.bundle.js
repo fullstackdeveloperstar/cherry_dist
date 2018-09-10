@@ -1638,6 +1638,7 @@ var ChatdemoComponent = /** @class */ (function () {
         this.activedRoute = activedRoute;
         this.contactService = contactService;
         this.staffService = staffService;
+        this.staffId = '';
         this.chatContentsArray = [];
         this.sendMessageStr = '';
         this.staffArray = [];
