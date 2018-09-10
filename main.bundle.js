@@ -2550,11 +2550,11 @@ var ChatService = /** @class */ (function () {
         return this.http.post(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'upload', formdata);
     };
     ChatService.prototype.loadChatContent = function (staffId, userId) {
-        // return this.http.get(config.baseURL + 'api/chart_' + staffId + '_' + userId, {headers: this.header});
-        return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/chart', { headers: this.header });
+        // return this.http.get(config.baseURL + 'api/chat_' + staffId + '_' + userId, {headers: this.header});
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/chat', { headers: this.header });
     };
     ChatService.prototype.getLastMsg = function (staffId, userId) {
-        return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/last/chart');
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/last/chat');
     };
     ChatService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
