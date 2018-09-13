@@ -599,17 +599,20 @@ var ManagestaffComponent = /** @class */ (function () {
             _this.staffList = [];
             _this.staffService.getStaffList().subscribe(function (data1) {
                 data1['data'].map(function (staff) {
+                    staff['password'] = '';
                     _this.staffList.push(staff);
                 });
             });
         });
     };
     ManagestaffComponent.prototype.clickEditStaff = function () {
+        var _this = this;
         var me = this;
         this.editStaff['password'] = __WEBPACK_IMPORTED_MODULE_4_ts_md5_dist_md5__["Md5"].hashStr(this.editStaff['password']);
         this.staffService.editStaff(this.editStaff).subscribe(function (data) {
             console.log(data);
             me.viewStatus = 0;
+            _this.editStaff['password'] = '';
         });
     };
     ManagestaffComponent.prototype.clickChangeAvartar = function () {
@@ -643,6 +646,7 @@ var ManagestaffComponent = /** @class */ (function () {
             me.staffService.getStaffList().subscribe(function (data) {
                 me.staffList = [];
                 data['data'].map(function (staff) {
+                    staff['password'] = '';
                     me.staffList.push(staff);
                 });
             });
@@ -2549,6 +2553,12 @@ var ProfileComponent = /** @class */ (function () {
         this.profileService.changePassword(this.changePassword).subscribe(function (data) {
             if (data['error'] === 1) {
                 me.isChangePassword = false;
+                me.changePassword = {
+                    current: '',
+                    confirm: '',
+                    new: '',
+                    id: me.profileService.id
+                };
             }
         });
     };
