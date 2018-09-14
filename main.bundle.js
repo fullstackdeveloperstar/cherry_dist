@@ -405,7 +405,7 @@ var AdminheaderComponent = /** @class */ (function () {
 /***/ "./src/app/admin/manageactions/manageactions.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"manageaction\">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      <button class=\"btn btn-success\" (click)=\"addnewActionClick()\">Add New Action</button>\r\n    </div>\r\n  </div>\r\n  <div class=\"row actionlist-table\">\r\n    <div class=\"col-md-6\">\r\n      <table class=\"table table-hover table-dark\">\r\n        <thead>\r\n          <tr>\r\n            <th scope=\"col\">#</th>\r\n            <th scope=\"col\">Action</th>\r\n            <th scope=\"col\">Actions</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let action of actionList; let i = index\">\r\n            <th scope=\"row\">{{i + 1}}</th>\r\n\r\n            <td>{{action.name}}</td>\r\n            <td>\r\n              <button class=\"btn btn-success\" (click)=\"editActionClick(action.id)\">Edit</button>\r\n              <button class=\"btn btn-danger\">Delete</button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n\r\n    <div class=\"col-md-6\">\r\n      <div class=\"row addnewtag\" *ngIf=\"viewStatus == 1\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Action</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Action\" [(ngModel)]=\"newAction.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickAddNewAction()\">Add New Action</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"row edittag\" *ngIf=\"viewStatus == 2\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Action</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Action\" [(ngModel)]=\"editAction.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickSaveAction()\">Save Action</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"manageaction\">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      <button class=\"btn btn-success\" (click)=\"addnewActionClick()\">Add New Action</button>\r\n    </div>\r\n  </div>\r\n  <div class=\"row actionlist-table\">\r\n    <div class=\"col-md-6\">\r\n      <table class=\"table table-hover table-dark\">\r\n        <thead>\r\n          <tr>\r\n            <th scope=\"col\">#</th>\r\n            <th scope=\"col\">Action</th>\r\n            <th scope=\"col\">Actions</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let action of actionList; let i = index\">\r\n            <th scope=\"row\">{{i + 1}}</th>\r\n\r\n            <td>{{action.name}}</td>\r\n            <td>\r\n              <button class=\"btn btn-success\" (click)=\"editActionClick(action.id)\">Edit</button>\r\n              <button class=\"btn btn-danger\" (click)=\"deleteAction(action.id)\">Delete</button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n\r\n    <div class=\"col-md-6\">\r\n      <div class=\"row addnewtag\" *ngIf=\"viewStatus == 1\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Action</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Action\" [(ngModel)]=\"newAction.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickAddNewAction()\">Add New Action</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"row edittag\" *ngIf=\"viewStatus == 2\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Action</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Action\" [(ngModel)]=\"editAction.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickSaveAction()\">Save Action</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -480,6 +480,21 @@ var ManageactionsComponent = /** @class */ (function () {
         this.actionService.editAction(this.editAction).subscribe(function (data) {
             me.actionList = [];
             me.viewStatus = 0;
+            me.actionService.getActionList().subscribe(function (data1) {
+                data1['data'].map(function (action) {
+                    me.actionList.push(action);
+                });
+            });
+        });
+    };
+    ManageactionsComponent.prototype.deleteAction = function (id) {
+        var r = confirm('Do you want to delete Action?');
+        if (!r) {
+            return;
+        }
+        var me = this;
+        this.actionService.deleteAction(id).subscribe(function (data) {
+            me.actionList = [];
             me.actionService.getActionList().subscribe(function (data1) {
                 data1['data'].map(function (action) {
                     me.actionList.push(action);
@@ -594,6 +609,8 @@ var ManagestaffComponent = /** @class */ (function () {
             return;
         }
         this.isNotPasswordMatched = false;
+        this.confirmPassword = '';
+        this.newStaff.password = __WEBPACK_IMPORTED_MODULE_4_ts_md5_dist_md5__["Md5"].hashStr(this.newStaff.password);
         this.staffService.addNewStaff(this.newStaff).subscribe(function (data) {
             _this.viewStatus = 0;
             _this.staffList = [];
@@ -672,7 +689,7 @@ var ManagestaffComponent = /** @class */ (function () {
 /***/ "./src/app/admin/managestatus/managestatus.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"managestatus \">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      <button class=\"btn btn-success\" (click)=\"addnewStatusClick()\">Add New Status</button>\r\n    </div>\r\n  </div>\r\n  <div class=\"row statuslist-table\">\r\n    <div class=\"col-md-6\">\r\n      <table class=\"table table-hover table-dark\">\r\n        <thead>\r\n          <tr>\r\n            <th scope=\"col\">#</th>\r\n            <th scope=\"col\">Status</th>\r\n            <th scope=\"col\">Actions</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let status of statusList; let i = index\">\r\n            <th scope=\"row\">{{i + 1}}</th>\r\n\r\n            <td>{{status.name}}</td>\r\n            <td>\r\n              <button class=\"btn btn-success\" (click)=\"editStatusClick(status.id)\">Edit</button>\r\n              <button class=\"btn btn-danger\">Delete</button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n\r\n    <div class=\"col-md-6\">\r\n      <div class=\"row addnewstatus\" *ngIf=\"viewStatus == 1\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Status</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Status\" [(ngModel)]=\"newStatus.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickAddNewStatus()\">Add New Status</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"row editstatus\" *ngIf=\"viewStatus == 2\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Status</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Status\" [(ngModel)]=\"editStatus.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickSaveStatus()\">Save Status</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"managestatus \">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      <button class=\"btn btn-success\" (click)=\"addnewStatusClick()\">Add New Status</button>\r\n    </div>\r\n  </div>\r\n  <div class=\"row statuslist-table\">\r\n    <div class=\"col-md-6\">\r\n      <table class=\"table table-hover table-dark\">\r\n        <thead>\r\n          <tr>\r\n            <th scope=\"col\">#</th>\r\n            <th scope=\"col\">Status</th>\r\n            <th scope=\"col\">Actions</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let status of statusList; let i = index\">\r\n            <th scope=\"row\">{{i + 1}}</th>\r\n\r\n            <td>{{status.name}}</td>\r\n            <td>\r\n              <button class=\"btn btn-success\" (click)=\"editStatusClick(status.id)\">Edit</button>\r\n              <button class=\"btn btn-danger\" (click)=\"deleteStatus(status.id)\">Delete</button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n\r\n    <div class=\"col-md-6\">\r\n      <div class=\"row addnewstatus\" *ngIf=\"viewStatus == 1\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Status</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Status\" [(ngModel)]=\"newStatus.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickAddNewStatus()\">Add New Status</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"row editstatus\" *ngIf=\"viewStatus == 2\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Status</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Status\" [(ngModel)]=\"editStatus.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickSaveStatus()\">Save Status</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -754,6 +771,21 @@ var ManagestatusComponent = /** @class */ (function () {
             });
         });
     };
+    ManagestatusComponent.prototype.deleteStatus = function (id) {
+        var r = confirm('Do you want to delete Status?');
+        if (!r) {
+            return;
+        }
+        var me = this;
+        this.statusService.deleteStatus(id).subscribe(function (data) {
+            me.statusList = [];
+            me.statusService.getStatusList().subscribe(function (data1) {
+                data1['data'].map(function (status) {
+                    me.statusList.push(status);
+                });
+            });
+        });
+    };
     ManagestatusComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-managestatus',
@@ -772,7 +804,7 @@ var ManagestatusComponent = /** @class */ (function () {
 /***/ "./src/app/admin/managetags/managetags.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"managetags \">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      <button class=\"btn btn-success\" (click)=\"addnewTagClick()\">Add New Tag</button>\r\n    </div>\r\n  </div>\r\n  <div class=\"row taglist-table\">\r\n    <div class=\"col-md-6\">\r\n      <table class=\"table table-hover table-dark\">\r\n        <thead>\r\n          <tr>\r\n            <th scope=\"col\">#</th>\r\n            <th scope=\"col\">Name</th>\r\n            <th scope=\"col\">Actions</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let tag of tagList; let i = index\">\r\n            <th scope=\"row\">{{i + 1}}</th>\r\n           \r\n            <td>{{tag.name}}</td>\r\n            <td>\r\n              <button class=\"btn btn-success\" (click)=\"editTagClick(tag.id)\">Edit</button>\r\n              <button class=\"btn btn-danger\">Delete</button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n\r\n    <div class=\"col-md-6\">\r\n      <div class=\"row addnewtag\" *ngIf=\"viewStatus == 1\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Name</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Name\" [(ngModel)]=\"newTag.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickAddNewTag()\">Add New Tag</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"row edittag\" *ngIf=\"viewStatus == 2\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Name</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Name\" [(ngModel)]=\"editTag.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickSaveTag()\">Save Tag</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"managetags \">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      <button class=\"btn btn-success\" (click)=\"addnewTagClick()\">Add New Tag</button>\r\n    </div>\r\n  </div>\r\n  <div class=\"row taglist-table\">\r\n    <div class=\"col-md-6\">\r\n      <table class=\"table table-hover table-dark\">\r\n        <thead>\r\n          <tr>\r\n            <th scope=\"col\">#</th>\r\n            <th scope=\"col\">Name</th>\r\n            <th scope=\"col\">Actions</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let tag of tagList; let i = index\">\r\n            <th scope=\"row\">{{i + 1}}</th>\r\n           \r\n            <td>{{tag.name}}</td>\r\n            <td>\r\n              <button class=\"btn btn-success\" (click)=\"editTagClick(tag.id)\">Edit</button>\r\n              <button class=\"btn btn-danger\" (click)=\"deleteTag(tag.id)\">Delete</button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n\r\n    <div class=\"col-md-6\">\r\n      <div class=\"row addnewtag\" *ngIf=\"viewStatus == 1\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Name</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Name\" [(ngModel)]=\"newTag.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickAddNewTag()\">Add New Tag</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"row edittag\" *ngIf=\"viewStatus == 2\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Name</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Name\" [(ngModel)]=\"editTag.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickSaveTag()\">Save Tag</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -854,6 +886,21 @@ var ManagetagsComponent = /** @class */ (function () {
             });
         });
     };
+    ManagetagsComponent.prototype.deleteTag = function (id) {
+        var r = confirm('Do you want to delete Tag?');
+        if (!r) {
+            return;
+        }
+        var me = this;
+        this.tagService.deleteTag(id).subscribe(function (data) {
+            me.tagList = [];
+            me.tagService.getTagList().subscribe(function (data1) {
+                data1['data'].map(function (tag) {
+                    me.tagList.push(tag);
+                });
+            });
+        });
+    };
     ManagetagsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-managetags',
@@ -872,7 +919,7 @@ var ManagetagsComponent = /** @class */ (function () {
 /***/ "./src/app/admin/managetemplates/managetemplates.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"managetemplate\">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      <button class=\"btn btn-success\" (click)=\"addnewTemplateClick()\">Add New Template</button>\r\n    </div>\r\n  </div>\r\n  <div class=\"row templatelist-table\">\r\n    <div class=\"col-md-6\">\r\n      <table class=\"table table-hover table-dark\">\r\n        <thead>\r\n          <tr>\r\n            <th scope=\"col\">#</th>\r\n            <th scope=\"col\">Template</th>\r\n            <th scope=\"col\">Actions</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let template of templateList; let i = index\">\r\n            <th scope=\"row\">{{i + 1}}</th>\r\n\r\n            <td>{{template.name}}</td>\r\n            <td>\r\n              <button class=\"btn btn-success\" (click)=\"editTemplateClick(template.id)\">Edit</button>\r\n              <button class=\"btn btn-danger\">Delete</button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n\r\n    <div class=\"col-md-6\">\r\n      <div class=\"row addnewtemplate\" *ngIf=\"viewStatus == 1\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Template</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Template\" [(ngModel)]=\"newTemplate.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickAddNewTemplate()\">Add New Template</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"row edittemplate\" *ngIf=\"viewStatus == 2\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Name</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Template\" [(ngModel)]=\"editTemplate.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickSaveTemplate()\">Save Template</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"managetemplate\">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      <button class=\"btn btn-success\" (click)=\"addnewTemplateClick()\">Add New Template</button>\r\n    </div>\r\n  </div>\r\n  <div class=\"row templatelist-table\">\r\n    <div class=\"col-md-6\">\r\n      <table class=\"table table-hover table-dark\">\r\n        <thead>\r\n          <tr>\r\n            <th scope=\"col\">#</th>\r\n            <th scope=\"col\">Template</th>\r\n            <th scope=\"col\">Actions</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr *ngFor=\"let template of templateList; let i = index\">\r\n            <th scope=\"row\">{{i + 1}}</th>\r\n\r\n            <td>{{template.name}}</td>\r\n            <td>\r\n              <button class=\"btn btn-success\" (click)=\"editTemplateClick(template.id)\">Edit</button>\r\n              <button class=\"btn btn-danger\" (click)=\"deleteTemplate(template.id)\">Delete</button>\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n    </div>\r\n\r\n    <div class=\"col-md-6\">\r\n      <div class=\"row addnewtemplate\" *ngIf=\"viewStatus == 1\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Template</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Template\" [(ngModel)]=\"newTemplate.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickAddNewTemplate()\">Add New Template</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"row edittemplate\" *ngIf=\"viewStatus == 2\">\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>Name</label>\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"Enter Template\" [(ngModel)]=\"editTemplate.name\">\r\n          </div>\r\n\r\n          <button class=\"btn btn-success\" (click)=\"clickSaveTemplate()\">Save Template</button>\r\n          <button class=\"btn btn-danger\" (click)=\"viewStatus = 0\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -946,6 +993,21 @@ var ManagetemplatesComponent = /** @class */ (function () {
         var me = this;
         this.templateService.editTemplate(this.editTemplate).subscribe(function (data) {
             me.viewStatus = 0;
+            me.templateList = [];
+            me.templateService.getTemplateList().subscribe(function (data1) {
+                data1['data'].map(function (template) {
+                    me.templateList.push(template);
+                });
+            });
+        });
+    };
+    ManagetemplatesComponent.prototype.deleteTemplate = function (id) {
+        var r = confirm('Do you want to delete Template?');
+        if (!r) {
+            return;
+        }
+        var me = this;
+        this.templateService.deleteTemplate(id).subscribe(function (data) {
             me.templateList = [];
             me.templateService.getTemplateList().subscribe(function (data1) {
                 data1['data'].map(function (template) {
@@ -1167,6 +1229,8 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__shared_services_chat_service__ = __webpack_require__("./src/app/shared/services/chat.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__shared_services_websocket_service__ = __webpack_require__("./src/app/shared/services/websocket.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__chatdemo_chatdemo_component__ = __webpack_require__("./src/app/chatdemo/chatdemo.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_ng2_datepicker__ = __webpack_require__("./node_modules/ng2-datepicker/dist/bundles/ng2-datepicker.umd.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_ng2_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_36_ng2_datepicker__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1210,6 +1274,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -1236,12 +1301,13 @@ var AppModule = /** @class */ (function () {
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2__app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"],
                 __WEBPACK_IMPORTED_MODULE_26__angular_common_http__["b" /* HttpClientModule */],
                 __WEBPACK_IMPORTED_MODULE_28_angular_6_datatable__["DataTableModule"],
                 __WEBPACK_IMPORTED_MODULE_29_angular2_moment__["MomentModule"],
                 __WEBPACK_IMPORTED_MODULE_30_angular_moment_timezone__["a" /* MomentTimezoneModule */],
-                __WEBPACK_IMPORTED_MODULE_32_ng_simple_slideshow__["a" /* SlideshowModule */]
+                __WEBPACK_IMPORTED_MODULE_32_ng_simple_slideshow__["a" /* SlideshowModule */],
+                __WEBPACK_IMPORTED_MODULE_36_ng2_datepicker__["NgDatepickerModule"]
                 // NgbModule.forRoot()
             ],
             providers: [
@@ -1271,7 +1337,7 @@ var AppModule = /** @class */ (function () {
 /***/ "./src/app/chat/chat.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"chat\">\n  <div class=\"text-right\">Total time in Conversation: {{chartTimeMin}}:{{chartTimeSec}}</div>\n  \n  <div>\n    <table class=\"table table-bordered\">\n      <tr>\n        <td class=\"text-center\" style=\"width: 50%;font-size: 20px;font-weight: 600;\">Profile</td>\n        <td class=\"text-center\" style=\"font-size: 20px;font-weight: 600;\">Chat</td>\n      </tr>\n      \n      <tr>\n        <td>\n          <div class=\"slider-div\">\n            <slideshow [height]=\"'300px'\" [autoPlay]=\"true\" [showArrows]=\"true\" [imageUrls]=\"imageUrlArray\"\n            [autoPlayWaitForLazyLoad]=\"true\">\n            </slideshow>\n          </div>\n          <div *ngIf=\"userProfile\" class=\"row\">\n            <div class=\"col-md-12\">\n              <p>First Name: {{userProfile[\"first_name\"]}}</p>\n              <p>Last Name: {{userProfile['last_name']}}</p>\n              <p>Birthday: {{userProfile['dob'] | amDateFormat: 'YYYY-MM-DD' }}</p>\n              <p>Gender: {{userProfile['gender'] == 1 ? 'Man': 'Woman'}}</p>\n              <p>Sex orientation : {{userProfile['show_me'] == '1,1' ? 'Both': ''}}\n                                   {{userProfile['show_me'] == '0,1'|| userProfile['show_me'] == ',1' ? 'Female': ''}}\n                                   {{userProfile['show_me'] == '1,0'|| userProfile['show_me'] == '1,' ? 'Male': ''}}\n              </p>\n              <p>Ages looking for : {{userProfile['age_range']}}</p>\n              <p>City: {{userProfile['city'] == null || userProfile['city'] == '' ? '-': userProfile['city']}}</p>\n              <p>State: {{userProfile['state'] == null || userProfile['state'] == '' ? '-': userProfile['state']}}</p>\n              <p>ZipCode: {{userProfile['zipcode'] == null || userProfile['zipcode'] == '' ? '-': userProfile['zipcode']}}</p>\n              <p>Occupation : {{userProfile['profession']}}</p>\n              <p>Height: {{userProfile['height']}}</p>\n              <p>Education Level : {{userProfile['education_level']}}</p>\n              <p>School : {{userProfile['education'] == null || userProfile['education'] == '' ? '-': userProfile['education']}}</p>\n              <p>About Me: {{userProfile['about_me'] == null || userProfile['about_me'] == '' ? '-': userProfile['about_me']}}</p>\n              <p>Profile Picture : <img [src]=\"userProfile['image']\"></p>\n              <p>Attraction Badge status : {{userProductPayment}}</p>\n              <p>isFacebookConnected : {{userSocialData.isFacebookConnected}}</p>\n              <p>isTwitterConnected : {{userSocialData.isTwitterConnected}}</p>\n              <p>isInstagramConnected : {{userSocialData.isInstagramConnected}}</p>\n              <p>Activist Badge : {{userProfile['bone_marrow_donor'] == '0' ? 'NOT' : (userProfile['bone_marrow_donor'] == '1' ? 'Consent': 'Registered')}}</p>\n              \n              <p>Interest:</p>\n              <p>Hobbies : \n                  <span *ngFor=\"let hobby of userInterestHobby;\" class=\"interest-item\">{{hobby.name}}</span>\n              </p>\n              <p>Games :\n                <span *ngFor=\"let game of userInterestGame;\" class=\"interest-item\">{{game.name}}</span>\n              </p>\n              <p>Musics :\n                <span *ngFor=\"let music of userInterestMusic;\" class=\"interest-item\">{{music.title}}</span>\n              </p>\n              <p>Sports :\n                <span *ngFor=\"let sport of userInterestSport;\" class=\"interest-item\">{{sport.name}}</span>\n              </p>\n              <p>Foods :\n                <span *ngFor=\"let food of userInterestFood;\" class=\"interest-item\">{{food.title}}</span>\n              </p>\n              <p>Drinks :\n                <span *ngFor=\"let drink of userInterestDrink;\" class=\"interest-item\">{{drink.name}}</span>\n              </p>\n              <p>Books :\n                <span *ngFor=\"let book of userInterestBook;\" class=\"interest-item\">{{book.name}}</span>\n              </p>\n              <p>Movies :\n                <span *ngFor=\"let movie of userInterestMovie;\" class=\"interest-item\">{{movie.title}}</span>\n              </p>\n            </div>\n          </div> \n        </td>\n        <td style=\"position: relative;\">\n          <div class=\"chat-content\" style=\"position: absolute;top: 0; left: 0;height: 100%;width: 100%; overflow: scroll;\">\n            <!-- <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n                  [ngClass]=\"{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId,\n                              'othermsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId}\"> -->\n            <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n                  [ngClass]=\"{'selfmsg': chatItem.type == 'staffTouser' ,\n                              'othermsg': chatItem.type == 'userTostaff' }\">\n                <div class=\"message-content\">\n                  <div class=\"username\" *ngIf=\"chatItem.type == 'staffTouser'\">\n                    <span *ngFor=\"let staffItem of staffArray;\">\n                      <span *ngIf=\"staffItem.id == chatItem.staffId \">{{staffItem.name}}</span>\n                    </span>\n                  </div>\n\n                  <div class=\"username\" *ngIf=\"chatItem.type == 'userTostaff'\">\n                    <span *ngFor=\"let userItem of profileArray;\">\n                      <span *ngIf=\"userItem.user_id == chatItem.userId \">{{userItem.first_name + ' '+ userItem.last_name}}</span>\n                    </span>\n                  </div>\n                  <div class=\"chat-content\" *ngIf=\"!chatItem.isMedia\">{{chatItem.msg}}</div>\n                  <div class=\"chat-content\" *ngIf=\"chatItem.isMedia\"><img [src]=\"chatItem.msg\" style=\"max-width: 100%;\"></div>\n                </div>\n            </div>\n            <div id='scrollToView' style=\"\"></div>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Status:</label>\n              <!-- <label>{{contactInfo['status']['name']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.status\" (change)=\"changeStatus()\">\n                <option *ngFor=\"let status of statusArray;\" [value]=\"status.id\">{{status.name}}</option>\n              </select>\n            </div>\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Actions:</label>\n              <!-- <label>{{contactInfo['actions']['name']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.actions\" (change)=\"changeAction()\">\n                <option *ngFor=\"let action of actionArray;\" [value]=\"action.id\">{{action.name}}</option>\n              </select>\n            </div>\n            <div class=\"col-md-6\">\n              <label>Staff:</label>\n              <label>{{contactInfo['staff']['name']}}</label>\n            </div>\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Rating:</label>\n              <!-- <label>{{contactInfo['rating']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.rating\" (change)=\"changeRating()\">\n                <option *ngFor=\"let i of ratingArray;\">{{i}}</option>\n              </select>\n            </div>\n          </div>\n\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\">\n              <p>\n                <label>Tags</label>\n                <i class=\"fas fa-plus-circle\" style=\"cursor: pointer;font-size: 20px;\" (click)=\"clickAddTag()\"></i>\n              </p>\n              <p *ngIf=\"isAddTag\">\n                <select name=\"\" class=\"form-control\" style=\"margin-bottom: 10px;\" [(ngModel)]=\"selectedTagId\">\n                  <option value=\"-1\">Please Select tag</option>\n                  <option *ngFor=\"let tag of showTagList;\" [value]=\"tag.id\">{{tag.name}}</option>\n                </select>\n                <button class=\"btn btn-success\" (click)=\"addTag()\">Add</button>\n                <button class=\"btn btn-danger\" (click)=\"isAddTag = false;\">Cancel</button>\n              </p>\n              <ul>\n                <li *ngFor=\"let tag of contactInfo['tagsArray'];\">{{tag.name}}</li>\n              </ul>\n            </div>\n            <div class=\"col-md-6\">\n              <p>Note:</p> \n              <div>\n                <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"contactInfo['note']\"></textarea>\n                <button class=\"btn btn-success\" (click)=\"saveNote()\" style=\"margin-top: 10px;\">{{saveNoteBtnStr}}</button>\n              </div>\n            </div>\n          </div>\n        </td>\n        <td>\n          <div class=\"row\" style=\"border-bottom: solid 1px #dee2e6;padding-bottom: 15px;\">\n            <div class=\"col-md-8\">\n              <input type=\"text\" class=\"form-control\" placeholder=\"Search saved templates\" [(ngModel)]=\"searchTemplateStr\" (input)=\"searchTemplate()\">\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-primary\" (click)=\"searchTemplateStr = ''; searchTemplate();\">See All</button>\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-success\" [disabled]=\"showTemplates.length !== 0\" (click)=\"addNewTemplate()\">Add New</button>\n            </div>\n\n            <div class=\"col-md-12\" class=\"templates-div\">\n              <label *ngFor=\"let template of showTemplates\" class=\"template-item\" (click)=\"clickTempItem(template.name)\">{{template.name}}</label>\n            </div>\n          </div>\n\n          <div class=\"row\" style=\"padding-top: 15px;\">\n            <div class=\"col-md-12\">\n              <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"sendMessageStr\" (keyup.enter)=\"sendMessage()\"></textarea>\n            </div>\n            <div class=\"col-md-12 text-right\">\n              <button class=\"btn btn-default\" style=\"margin-top: 15px;\" (click)=\"selectImage()\"><i class=\"fa fa-image\"></i></button>\n              <input type=\"file\" accept=\".jpg, .png, .jpeg\" id=\"profile-imgage-upload\" style=\"display: none;\" (change)=\"fileChange($event)\">\n              <button class=\"btn btn-success\" style=\"margin-top: 15px;\" (click)=\"sendMessage()\">Enter</button>\n            </div>\n          </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n</div>"
+module.exports = "<div class=\"chat\">\n  <div class=\"text-right\">Total time in Conversation: {{chartTimeMin}}:{{chartTimeSec}}</div>\n  \n  <div>\n    <table class=\"table table-bordered\">\n      <tr>\n        <td class=\"text-center\" style=\"width: 50%;font-size: 20px;font-weight: 600;\">Profile</td>\n        <td class=\"text-center\" style=\"font-size: 20px;font-weight: 600;\">Chat</td>\n      </tr>\n      \n      <tr>\n        <td>\n          <div style=\"max-height: 550px; overflow: scroll;\">\n          <div class=\"slider-div\">\n            <slideshow [height]=\"'300px'\" [autoPlay]=\"true\" [showArrows]=\"true\" [imageUrls]=\"imageUrlArray\"\n            [autoPlayWaitForLazyLoad]=\"true\">\n            </slideshow>\n          </div>\n          <div *ngIf=\"userProfile\" class=\"row\">\n            <div class=\"col-md-12\">\n              <p>First Name: {{userProfile[\"first_name\"]}}</p>\n              <p>Last Name: {{userProfile['last_name']}}</p>\n              <p>Birthday: {{userProfile['dob'] | amDateFormat: 'YYYY-MM-DD' }}</p>\n              <p>Gender: {{userProfile['gender'] == 1 ? 'Man': 'Woman'}}</p>\n              <p>Sex orientation : {{userProfile['show_me'] == '1,1' ? 'Both': ''}}\n                                   {{userProfile['show_me'] == '0,1'|| userProfile['show_me'] == ',1' ? 'Female': ''}}\n                                   {{userProfile['show_me'] == '1,0'|| userProfile['show_me'] == '1,' ? 'Male': ''}}\n              </p>\n              <p>Ages looking for : {{userProfile['age_range']}}</p>\n              <p>City: {{userProfile['city'] == null || userProfile['city'] == '' ? '-': userProfile['city']}}</p>\n              <p>State: {{userProfile['state'] == null || userProfile['state'] == '' ? '-': userProfile['state']}}</p>\n              <p>ZipCode: {{userProfile['zipcode'] == null || userProfile['zipcode'] == '' ? '-': userProfile['zipcode']}}</p>\n              <p>Occupation : {{userProfile['profession']}}</p>\n              <p>Height: {{userProfile['height']}}</p>\n              <p>Education Level : {{userProfile['education_level']}}</p>\n              <p>School : {{userProfile['education'] == null || userProfile['education'] == '' ? '-': userProfile['education']}}</p>\n              <p>About Me: {{userProfile['about_me'] == null || userProfile['about_me'] == '' ? '-': userProfile['about_me']}}</p>\n              <p>Profile Picture : <img [src]=\"userProfile['image']\"></p>\n              <p>Attraction Badge status : {{userProductPayment}}</p>\n              <p>isFacebookConnected : {{userSocialData.isFacebookConnected}}</p>\n              <p>isTwitterConnected : {{userSocialData.isTwitterConnected}}</p>\n              <p>isInstagramConnected : {{userSocialData.isInstagramConnected}}</p>\n              <p>Activist Badge : {{userProfile['bone_marrow_donor'] == '0' ? 'NOT' : (userProfile['bone_marrow_donor'] == '1' ? 'Consent': 'Registered')}}</p>\n              \n              <p>Interest:</p>\n              <p>Hobbies : \n                  <span *ngFor=\"let hobby of userInterestHobby;\" class=\"interest-item\">{{hobby.name}}</span>\n              </p>\n              <p>Games :\n                <span *ngFor=\"let game of userInterestGame;\" class=\"interest-item\">{{game.name}}</span>\n              </p>\n              <p>Musics :\n                <span *ngFor=\"let music of userInterestMusic;\" class=\"interest-item\">{{music.title}}</span>\n              </p>\n              <p>Sports :\n                <span *ngFor=\"let sport of userInterestSport;\" class=\"interest-item\">{{sport.name}}</span>\n              </p>\n              <p>Foods :\n                <span *ngFor=\"let food of userInterestFood;\" class=\"interest-item\">{{food.title}}</span>\n              </p>\n              <p>Drinks :\n                <span *ngFor=\"let drink of userInterestDrink;\" class=\"interest-item\">{{drink.name}}</span>\n              </p>\n              <p>Books :\n                <span *ngFor=\"let book of userInterestBook;\" class=\"interest-item\">{{book.name}}</span>\n              </p>\n              <p>Movies :\n                <span *ngFor=\"let movie of userInterestMovie;\" class=\"interest-item\">{{movie.title}}</span>\n              </p>\n\n              <p>HashTags : \n                <span *ngFor=\"let tag of userHashTags;\" class=\"interest-item\">{{tag.title}}</span>\n              </p>\n\n              <p>TwitterHashTags :\n                <span *ngFor=\"let tag of userTwitterHashTags;\" class=\"interest-item\">{{tag.title}}</span>\n              </p>\n\n            </div>\n          </div> \n          </div>\n        </td>\n        <td style=\"position: relative;\">\n          <div class=\"chat-content\" style=\"position: absolute;top: 0; left: 0;height: 100%;width: 100%; overflow: scroll;\">\n            <!-- <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n                  [ngClass]=\"{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId,\n                              'othermsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId}\"> -->\n            <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n                  [ngClass]=\"{'selfmsg': chatItem.type == 'staffTouser' ,\n                              'othermsg': chatItem.type == 'userTostaff' }\">\n                <div class=\"message-content\">\n                  <div class=\"username\" *ngIf=\"chatItem.type == 'staffTouser'\">\n                    <span *ngFor=\"let staffItem of staffArray;\">\n                      <span *ngIf=\"staffItem.id == chatItem.staffId \">{{staffItem.name}}</span>\n                    </span>\n                  </div>\n\n                  <div class=\"username\" *ngIf=\"chatItem.type == 'userTostaff'\">\n                    <span *ngFor=\"let userItem of profileArray;\">\n                      <span *ngIf=\"userItem.user_id == chatItem.userId \">{{userItem.first_name + ' '+ userItem.last_name}}</span>\n                    </span>\n                  </div>\n                  <div class=\"chat-content\" *ngIf=\"!chatItem.isMedia\">{{chatItem.msg}}</div>\n                  <div class=\"chat-content\" *ngIf=\"chatItem.isMedia\"><img [src]=\"chatItem.msg\" style=\"max-width: 100%;\"></div>\n                </div>\n            </div>\n            <div id='scrollToView' style=\"\"></div>\n          </div>\n        </td>\n      </tr>\n      <tr>\n        <td>\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Status:</label>\n              <!-- <label>{{contactInfo['status']['name']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.status\" (change)=\"changeStatus()\">\n                <option *ngFor=\"let status of statusArray;\" [value]=\"status.id\">{{status.name}}</option>\n              </select>\n            </div>\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Actions:</label>\n              <!-- <label>{{contactInfo['actions']['name']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.actions\" (change)=\"changeAction()\">\n                <option *ngFor=\"let action of actionArray;\" [value]=\"action.id\">{{action.name}}</option>\n              </select>\n            </div>\n            <div class=\"col-md-6\">\n              <label>Staff:</label>\n              <label>{{contactInfo['staff']['name']}}</label>\n            </div>\n            <div class=\"col-md-6\" style=\"display: flex;\">\n              <label>Rating:</label>\n              <!-- <label>{{contactInfo['rating']}}</label> -->\n              <select class=\"form-control\" [(ngModel)]=\"contactInfo.rating\" (change)=\"changeRating()\">\n                <option *ngFor=\"let i of ratingArray;\">{{i}}</option>\n              </select>\n            </div>\n          </div>\n\n          <div class=\"row\" *ngIf=\"contactInfo\">\n            <div class=\"col-md-6\">\n              <p>\n                <label>Tags</label>\n                <i class=\"fas fa-plus-circle\" style=\"cursor: pointer;font-size: 20px;\" (click)=\"clickAddTag()\"></i>\n              </p>\n              <p *ngIf=\"isAddTag\">\n                <select name=\"\" class=\"form-control\" style=\"margin-bottom: 10px;\" [(ngModel)]=\"selectedTagId\">\n                  <option value=\"-1\">Please Select tag</option>\n                  <option *ngFor=\"let tag of showTagList;\" [value]=\"tag.id\">{{tag.name}}</option>\n                </select>\n                <button class=\"btn btn-success\" (click)=\"addTag()\">Add</button>\n                <button class=\"btn btn-danger\" (click)=\"isAddTag = false;\">Cancel</button>\n              </p>\n              <ul>\n                <li *ngFor=\"let tag of contactInfo['tagsArray'];\">{{tag.name}}</li>\n              </ul>\n            </div>\n            <div class=\"col-md-6\">\n              <p>Note:</p> \n              <div>\n                <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"contactInfo['note']\"></textarea>\n                <button class=\"btn btn-success\" (click)=\"saveNote()\" style=\"margin-top: 10px;\">{{saveNoteBtnStr}}</button>\n              </div>\n            </div>\n          </div>\n        </td>\n        <td>\n          <div class=\"row\" style=\"border-bottom: solid 1px #dee2e6;padding-bottom: 15px;\">\n            <div class=\"col-md-8\">\n              <input type=\"text\" class=\"form-control\" placeholder=\"Search saved templates\" [(ngModel)]=\"searchTemplateStr\" (input)=\"searchTemplate()\">\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-primary\" (click)=\"searchTemplateStr = ''; searchTemplate();\">See All</button>\n            </div>\n            <div class=\"col-md-2\">\n              <button class=\"btn btn-success\" [disabled]=\"showTemplates.length !== 0\" (click)=\"addNewTemplate()\">Add New</button>\n            </div>\n\n            <div class=\"col-md-12\" class=\"templates-div\">\n              <label *ngFor=\"let template of showTemplates\" class=\"template-item\" (click)=\"clickTempItem(template.name)\">{{template.name}}</label>\n            </div>\n          </div>\n\n          <div class=\"row\" style=\"padding-top: 15px;\">\n            <div class=\"col-md-12\">\n              <textarea name=\"\" class=\"form-control\" [(ngModel)]=\"sendMessageStr\" (keyup.enter)=\"sendMessage()\"></textarea>\n            </div>\n            <div class=\"col-md-12 text-right\">\n              <button class=\"btn btn-default\" style=\"margin-top: 15px;\" (click)=\"selectImage()\"><i class=\"fa fa-image\"></i></button>\n              <input type=\"file\" accept=\".jpg, .png, .jpeg\" id=\"profile-imgage-upload\" style=\"display: none;\" (change)=\"fileChange($event)\">\n              <button class=\"btn btn-success\" style=\"margin-top: 15px;\" (click)=\"sendMessage()\">Enter</button>\n            </div>\n          </div>\n        </td>\n      </tr>\n    </table>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1342,6 +1408,8 @@ var ChatComponent = /** @class */ (function () {
         this.userInterestDrink = [];
         this.userInterestBook = [];
         this.userInterestMovie = [];
+        this.userHashTags = [];
+        this.userTwitterHashTags = [];
         this.saveNoteBtnStr = 'Save';
         this.isAddTag = false;
         this.tagList = [];
@@ -1524,7 +1592,7 @@ var ChatComponent = /** @class */ (function () {
                             var book_ids = interest['interest_id'].split(',');
                             book_ids.map(function (id) {
                                 me.userInterestBook = [];
-                                me.contactService.getUserInterestDrink(id).subscribe(function (book) {
+                                me.contactService.getUserInterestBook(id).subscribe(function (book) {
                                     if (book['error'] === 0 && book['data'].length > 0) {
                                         me.userInterestBook.push(book['data'][0]);
                                     }
@@ -1545,6 +1613,35 @@ var ChatComponent = /** @class */ (function () {
                         default:
                             break;
                     }
+                });
+            }
+        });
+        contactService.getUserHashCodes(this.userId).subscribe(function (hashcodes) {
+            if (hashcodes['error'] === 0 && hashcodes['data'].length > 0) {
+                console.log(hashcodes);
+                var hastags = hashcodes['data'][0]['hash_tags'].split(',');
+                var twitterhashtags = hashcodes['data'][0]['twitter_hashtags'].split(',');
+                hastags.map(function (tag) {
+                    if (tag === '') {
+                        return;
+                    }
+                    me.contactService.getUserHashCode(tag).subscribe(function (tagInfo) {
+                        console.log(tagInfo);
+                        if (tagInfo['error'] === 0 && tagInfo['data'].length > 0) {
+                            me.userHashTags.push(tagInfo['data'][0]);
+                        }
+                    });
+                });
+                twitterhashtags.map(function (tag) {
+                    if (tag === '') {
+                        return;
+                    }
+                    me.contactService.getUserHashCode(tag).subscribe(function (tagInfo) {
+                        console.log(tagInfo);
+                        if (tagInfo['error'] === 0 && tagInfo['data'].length > 0) {
+                            me.userTwitterHashTags.push(tagInfo['data'][0]);
+                        }
+                    });
                 });
             }
         });
@@ -1943,7 +2040,7 @@ var ChatdemoComponent = /** @class */ (function () {
 /***/ "./src/app/contacts/contacts.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"contacts\">\r\n  \r\n  <!-- <table class=\"table table-hover \" [mfData]=\"contactsList\" #mf=\"mfDataTable\" [mfRowsOnPage]=\"5\">\r\n    <thead>\r\n      <tr>\r\n        <th>Id</th>\r\n        <th>\r\n          <mfDefaultSorter by=\"first_name\">First Name</mfDefaultSorter>\r\n        </th>\r\n        <th>\r\n          <mfDefaultSorter by=\"last_name\">Last Name</mfDefaultSorter>\r\n        </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let contact of mf.data; let i = index\">\r\n        <td>{{i}}</td>\r\n        <td>{{contact['first_name']}}</td>\r\n        <td>{{contact['last_name']}}</td>\r\n      </tr>\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td colspan=\"4\">\r\n          <mfBootstrapPaginator [rowsOnPageSet]=\"[5,10,25]\"></mfBootstrapPaginator>\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table> -->\r\n  <div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n      <input type=\"text\" placeholder=\"Search Name\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"searchFilter\">\r\n    </div>\r\n    \r\n    <div class=\"col-md-2 btn btn-default\" (click)=\"isAdvancedFiltering = !isAdvancedFiltering ; filter()\">Advanced Filtering</div>\r\n\r\n    <div class=\"col-md-2 dropdown\">\r\n      <button class=\"btn btn-success\" data-toggle=\"dropdown\">Action</button>\r\n      <ul class=\"dropdown-menu\">\r\n        <li (click)=\"deleteSelected()\">Delete</li>\r\n        <li (click)=\"showBulkMsg()\">Send Bulk Messages</li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row advanced-filtering\" *ngIf=\"isAdvancedFiltering\">\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"tag\" class=\"form-control\" [(ngModel)]=\"tagFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"status\" class=\"form-control\" [(ngModel)]=\"statusFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"actions\" class=\"form-control\" [(ngModel)]=\"actionsFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"messages\" class=\"form-control\" [(ngModel)]=\"messagesFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"date of creation\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"dateofcreationFilter\">\r\n    </div>\r\n\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"staff\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"staffFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"rate\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"ratingFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"time\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"timeFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"note\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"noteFilter\">\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row sendbulkmsg\" *ngIf=\"isShowSendBuldMsg\">\r\n    <div class=\"col-md-10\">\r\n      <input type=\"text\" class=\"form-control\" [(ngModel)]=\"bulkMsgStr\">\r\n    </div>\r\n    <div class=\"col-md-2\">\r\n      <button class=\"btn btn-success\" (click)=\"sendBulkMsg()\">Send Bulk Message</button>\r\n    </div>\r\n  </div>\r\n  \r\n  <div class=\"contacts\">\r\n    <table class=\"table table-hover\">\r\n      <thead>\r\n        <th></th>\r\n        <th>Profile</th>\r\n        <th>Name</th>\r\n        <th>Tags</th>\r\n        <th>Status</th>\r\n        <th>Actions</th>\r\n        <th>Messages</th>\r\n        <th>Date of Creation</th>\r\n        <th>Staff</th>\r\n        <th>Rating</th>\r\n        <th>Time</th>\r\n        <th>Note</th>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let contact of contactsListShow; let i = index\">\r\n          <td><input type=\"checkbox\" [(ngModel)]=\"contact.check\"></td>\r\n          <td>\r\n            <img [src]=\"contact.profile_image\" alt=\"\" class=\"profile-image\" (click)=\"gotochat(contact.id, contact.user_id)\">\r\n          </td>\r\n          <td>{{contact.name}}</td>\r\n          <td>\r\n            <span *ngFor=\"let tag of contact['tagsArray'];\" class=\"tag\">\r\n              {{tag['name']}}\r\n            </span>\r\n          </td>\r\n          <td>{{contact.status}}</td>\r\n          <td>{{contact.actions}}</td>\r\n          <td>\r\n              <div [ngClass]=\"{'text-success': contact.messages.message_type === 'staffTouser', 'text-danger': contact.messages.message_type === 'userTostaff'}\">\r\n                <p>{{contact.messages.message}}</p>\r\n                <p>{{contact.messages.updated | amTz:'America/Chicago'}}</p>\r\n              </div>\r\n          </td>\r\n          <td>\r\n             {{contact.date_of_creation | amTz:'America/Chicago'}}\r\n          </td>\r\n          <td>\r\n            <select class=\"form-control\" [(ngModel)]=\"contact.staff\" (change)=\"assignStaff(contact.id, $event.target.value)\">\r\n              <option *ngFor=\"let staff of staffList;\" [value]=\"staff.id\">{{staff.name}}</option>\r\n            </select>\r\n          </td>\r\n          <td>{{contact.rating}}</td>\r\n          <td>{{contact.time}}s</td>\r\n          <td>{{contact.note}}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"contacts\">\r\n  \r\n  <!-- <table class=\"table table-hover \" [mfData]=\"contactsList\" #mf=\"mfDataTable\" [mfRowsOnPage]=\"5\">\r\n    <thead>\r\n      <tr>\r\n        <th>Id</th>\r\n        <th>\r\n          <mfDefaultSorter by=\"first_name\">First Name</mfDefaultSorter>\r\n        </th>\r\n        <th>\r\n          <mfDefaultSorter by=\"last_name\">Last Name</mfDefaultSorter>\r\n        </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let contact of mf.data; let i = index\">\r\n        <td>{{i}}</td>\r\n        <td>{{contact['first_name']}}</td>\r\n        <td>{{contact['last_name']}}</td>\r\n      </tr>\r\n    </tbody>\r\n    <tfoot>\r\n      <tr>\r\n        <td colspan=\"4\">\r\n          <mfBootstrapPaginator [rowsOnPageSet]=\"[5,10,25]\"></mfBootstrapPaginator>\r\n        </td>\r\n      </tr>\r\n    </tfoot>\r\n  </table> -->\r\n  <div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n      <input type=\"text\" placeholder=\"Search Name\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"searchFilter\">\r\n    </div>\r\n    \r\n    <div class=\"col-md-2 btn btn-default\" (click)=\"clickAdvance()\">Advanced Filtering</div>\r\n\r\n    <div class=\"col-md-2 dropdown\">\r\n      <button class=\"btn btn-success\" data-toggle=\"dropdown\">Action</button>\r\n      <ul class=\"dropdown-menu\">\r\n        <li (click)=\"deleteSelected()\">Delete</li>\r\n        <li (click)=\"showBulkMsg()\">Send Bulk Messages</li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row advanced-filtering\" *ngIf=\"isAdvancedFiltering\">\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"tag\" class=\"form-control\" [(ngModel)]=\"tagFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"status\" class=\"form-control\" [(ngModel)]=\"statusFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"actions\" class=\"form-control\" [(ngModel)]=\"actionsFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"messages\" class=\"form-control\" [(ngModel)]=\"messagesFilter\" (input)=\"filter()\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\" style=\"z-index: 1;\">\r\n      <!-- <input type=\"text\" placeholder=\"date of creation\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"dateofcreationFilter\"> -->\r\n      <ng-datepicker [(ngModel)]=\"date\" [options]=\"options\" (ngModelChange)=\"filter()\" [headless]=\"false\"></ng-datepicker>\r\n    </div>\r\n\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"staff\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"staffFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"rate\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"ratingFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"time\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"timeFilter\">\r\n    </div>\r\n    <div class=\"col-md-4 filter-item\">\r\n      <input type=\"text\" placeholder=\"note\" class=\"form-control\" (input)=\"filter()\" [(ngModel)]=\"noteFilter\">\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row sendbulkmsg\" *ngIf=\"isShowSendBuldMsg\">\r\n    <div class=\"col-md-10\">\r\n      <input type=\"text\" class=\"form-control\" [(ngModel)]=\"bulkMsgStr\">\r\n    </div>\r\n    <div class=\"col-md-2\">\r\n      <button class=\"btn btn-success\" (click)=\"sendBulkMsg()\">Send Bulk Message</button>\r\n    </div>\r\n  </div>\r\n  \r\n  <div class=\"contacts\">\r\n    <table class=\"table table-hover\">\r\n      <thead>\r\n        <th></th>\r\n        <th>Profile</th>\r\n        <th>Name</th>\r\n        <th>Tags</th>\r\n        <th>Status</th>\r\n        <th>Actions</th>\r\n        <th>Messages</th>\r\n        <th>Date of Creation</th>\r\n        <th>Staff</th>\r\n        <th>Rating</th>\r\n        <th>Time</th>\r\n        <th>Note</th>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let contact of contactsListShow; let i = index\">\r\n          <td><input type=\"checkbox\" [(ngModel)]=\"contact.check\"></td>\r\n          <td>\r\n            <img [src]=\"contact.profile_image\" alt=\"\" class=\"profile-image\" (click)=\"gotochat(contact.id, contact.user_id)\">\r\n          </td>\r\n          <td>{{contact.name}}</td>\r\n          <td>\r\n            <span *ngFor=\"let tag of contact['tagsArray'];\" class=\"tag\">\r\n              {{tag['name']}}\r\n            </span>\r\n          </td>\r\n          <td>{{contact.status}}</td>\r\n          <td>{{contact.actions}}</td>\r\n          <td>\r\n              <div [ngClass]=\"{'text-success': contact.messages.message_type === 'staffTouser', 'text-danger': contact.messages.message_type === 'userTostaff'}\">\r\n                <p>{{contact.messages.message}}</p>\r\n                <p>{{contact.messages.updated | amTz:'America/Chicago'}}</p>\r\n              </div>\r\n          </td>\r\n          <td>\r\n             {{contact.date_of_creation | amTz:'America/Chicago'}}\r\n          </td>\r\n          <td>\r\n            <select class=\"form-control\" [(ngModel)]=\"contact.staff\" (change)=\"assignStaff(contact.id, $event.target.value)\">\r\n              <option *ngFor=\"let staff of staffList;\" [value]=\"staff.id\">{{staff.name}}</option>\r\n            </select>\r\n          </td>\r\n          <td>{{contact.rating}}</td>\r\n          <td>{{contact.time}}</td>\r\n          <td>{{contact.note}}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n   \r\n  </div>\r\n\r\n  \r\n</div>"
 
 /***/ }),
 
@@ -1968,6 +2065,8 @@ module.exports = ".contacts {\n  margin: 0px 50px;\n  padding-top: 20px; }\n  .c
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_services_chat_service__ = __webpack_require__("./src/app/shared/services/chat.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_modules_config_model__ = __webpack_require__("./src/app/shared/modules/config.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_date_fns_locale_en__ = __webpack_require__("./node_modules/date-fns/locale/en/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_date_fns_locale_en___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_date_fns_locale_en__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1986,6 +2085,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ContactsComponent = /** @class */ (function () {
     function ContactsComponent(contactsService, tagService, statusService, actionService, staffService, router, chatService) {
         this.contactsService = contactsService;
@@ -1995,6 +2095,13 @@ var ContactsComponent = /** @class */ (function () {
         this.staffService = staffService;
         this.router = router;
         this.chatService = chatService;
+        this.date = '';
+        this.options = {
+            locale: __WEBPACK_IMPORTED_MODULE_9_date_fns_locale_en__,
+            addClass: 'form-control',
+            addStyle: { width: '100%' },
+            displayFormat: 'YYYY-MM-DD',
+        };
         this.contactsList = [];
         this.contactsListShow = [];
         this.isAdvancedFiltering = false;
@@ -2034,14 +2141,17 @@ var ContactsComponent = /** @class */ (function () {
                 me.contactsList.map(function (contact) {
                     var tagIds = contact['tags'].split(',');
                     contact['tagsArray'] = [];
+                    contact['tags'] = '';
                     tagIds.map(function (tagId) {
                         me.tagService.getTagName(tagId).subscribe(function (tag) {
                             contact['tagsArray'].push(tag['data'][0]);
+                            contact['tags'] += tag['data'][0]['name'];
                         });
                     });
-                    me.tagService.getTagName(contact['tags']).subscribe(function (tag) {
-                        contact['tags'] = tag['data'][0]['name'];
-                    });
+                    // me.tagService.getTagName(contact['tags']).subscribe(tag => {
+                    //   contact['tags'] += tag['data'][0]['name'];
+                    //   console.log(contact['tags']);
+                    // });
                     me.statusService.getStatusName(contact['status']).subscribe(function (status) {
                         contact['status'] = status['data'][0]['name'];
                     });
@@ -2065,6 +2175,9 @@ var ContactsComponent = /** @class */ (function () {
                             contact['name'] = user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'];
                         }
                     });
+                    var min = Math.floor(contact['time'] / 60).toString();
+                    var sec = (contact['time'] % 60).toString();
+                    contact['time'] = min + ':' + sec;
                     contact['check'] = false;
                 });
                 me.contactsListShow = me.contactsList;
@@ -2089,13 +2202,28 @@ var ContactsComponent = /** @class */ (function () {
             if (!me.isAdvancedFiltering) {
                 return el.name.toLowerCase().includes(me.searchFilter.toLowerCase());
             }
+            console.log(el.date_of_creation);
+            // console.log(me.date);
+            var d = new Date(me.date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
+            if (month.length < 2) {
+                month = '0' + month;
+            }
+            if (day.length < 2) {
+                day = '0' + day;
+            }
+            var real_data = [year, month, day].join('-');
+            if (real_data === 'NaN-NaN-NaN') {
+                real_data = '';
+            }
+            console.log(real_data);
             return el.tags.toLowerCase().includes(me.tagFilter.toLowerCase())
                 && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
                 && el.status.toLowerCase().includes(me.statusFilter.toLowerCase())
                 && el.actions.toLowerCase().includes(me.actionsFilter.toLowerCase())
-                // && el.messages.toLowerCase().includes(me.messagesFilter.toLowerCase())
-                && el.date_of_creation.toLowerCase().includes(me.dateofcreationFilter.toLowerCase())
-                // && el.staff.toLowerCase().includes(me.staffFilter.toLowerCase())
+                && el.messages.message.toLowerCase().includes(me.messagesFilter.toLowerCase())
+                // && el.date_of_creation.toLowerCase().includes(me.dateofcreationFilter.toLowerCase())
+                && el.date_of_creation.toLowerCase().includes(real_data.toLowerCase())
+                && el.staffName.toLowerCase().includes(me.staffFilter.toLowerCase())
                 && el.rating.toString().toLowerCase().includes(me.ratingFilter.toLowerCase())
                 && el.time.toString().toLowerCase().includes(me.timeFilter.toLowerCase())
                 && el.note.toLowerCase().includes(me.noteFilter.toLowerCase());
@@ -2157,6 +2285,12 @@ var ContactsComponent = /** @class */ (function () {
         this.contactsService.updateContact(contactId, contactData).subscribe(function (data) {
             me.loadContacts();
         });
+    };
+    ContactsComponent.prototype.clickAdvance = function () {
+        this.isAdvancedFiltering = !this.isAdvancedFiltering;
+        if (!this.isAdvancedFiltering) {
+            this.filter();
+        }
     };
     ContactsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -2406,8 +2540,8 @@ var LoginComponent = /** @class */ (function () {
         this.router = router;
         this.loginService = loginService;
         this.userInfo = {
-            email: 'admin@mail.com',
-            password: 'soksunae'
+            email: '',
+            password: ''
         };
         this.isEmailErrorValidation = false;
         this.isPasswordErrorValidation = false;
@@ -2584,7 +2718,7 @@ var ProfileComponent = /** @class */ (function () {
             this.profileService.uploadProfileImage(formData).subscribe(function (data) {
                 _this.profile.avartar = __WEBPACK_IMPORTED_MODULE_2__shared_modules_config_model__["a" /* config */].baseURL + data.url;
                 _this.profileService.editProfile(_this.profile).subscribe(function (data1) {
-                    // location.reload();
+                    location.reload();
                 });
             });
         }
@@ -2656,6 +2790,9 @@ var ActionService = /** @class */ (function () {
     };
     ActionService.prototype.getActionName = function (actionId) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + actionId, { headers: this.header });
+    };
+    ActionService.prototype.deleteAction = function (actionId) {
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + actionId, { headers: this.header });
     };
     ActionService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -2846,6 +2983,12 @@ var ContactsService = /** @class */ (function () {
     };
     ContactsService.prototype.getUserInterestMovie = function (id) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestMovie/' + id, { headers: this.header });
+    };
+    ContactsService.prototype.getUserHashCodes = function (user_id) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserHashCodes/' + user_id, { headers: this.header });
+    };
+    ContactsService.prototype.getUserHashCode = function (id) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserHashCode/' + id, { headers: this.header });
     };
     ContactsService.prototype.updateContact = function (contactId, contactData) {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + contactId, contactData, { headers: this.header });
@@ -3057,6 +3200,9 @@ var StatusService = /** @class */ (function () {
     StatusService.prototype.getStatusName = function (statusId) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + statusId, { headers: this.header });
     };
+    StatusService.prototype.deleteStatus = function (statusId) {
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + statusId, { headers: this.header });
+    };
     StatusService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
@@ -3108,6 +3254,9 @@ var TagService = /** @class */ (function () {
     TagService.prototype.getTagName = function (tagId) {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + tagId, { headers: this.header });
     };
+    TagService.prototype.deleteTag = function (tagId) {
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + tagId, { headers: this.header });
+    };
     TagService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
@@ -3155,6 +3304,9 @@ var TemplateService = /** @class */ (function () {
     };
     TemplateService.prototype.editTemplate = function (editTemplate) {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + editTemplate.id, editTemplate, { headers: this.header });
+    };
+    TemplateService.prototype.deleteTemplate = function (templateId) {
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + templateId, { headers: this.header });
     };
     TemplateService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
