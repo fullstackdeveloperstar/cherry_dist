@@ -1668,15 +1668,15 @@ var ChatComponent = /** @class */ (function () {
                 me.staffService.getStaff(me.staffId).subscribe(function (staff) {
                     me.contactInfo['staff'] = staff['data'][0];
                     me.staffId = staff['data'][0]['id'];
-                    me.contactService.updateContact(me.contactId, { staff: me.staffId, status: 2 }).subscribe(function (data1) {
-                        if (data1['success'] === 1) {
-                            me.chatService.sendMsg({
-                                type: 'startChat',
-                                staffId: me.staffId,
-                                userId: me.userId
-                            });
-                        }
+                    // me.contactService.updateContact(me.contactId, { status: 2}).subscribe(data1 => {
+                    //   if (data1['success'] === 1) {
+                    me.chatService.sendMsg({
+                        type: 'startChat',
+                        staffId: me.staffId,
+                        userId: me.userId
                     });
+                    //   }
+                    // });
                 });
                 var tagIds = me.contactInfo['tags'].split(',');
                 me.contactInfo['tagsArray'] = [];
@@ -2095,12 +2095,15 @@ var ContactsComponent = /** @class */ (function () {
         this.staffService = staffService;
         this.router = router;
         this.chatService = chatService;
-        this.date = '';
+        this.date = new Date();
         this.options = {
             locale: __WEBPACK_IMPORTED_MODULE_9_date_fns_locale_en__,
             addClass: 'form-control',
             addStyle: { width: '100%' },
             displayFormat: 'YYYY-MM-DD',
+            placeholder: 'Date of Creation',
+            minYear: 2018,
+            maxYear: 2100,
         };
         this.contactsList = [];
         this.contactsListShow = [];
