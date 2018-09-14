@@ -1460,7 +1460,9 @@ var ChatComponent = /** @class */ (function () {
                         }
                     });
                 }
-                if (chatItem['user_id'].toString() === me.userId.toString()) {
+                var role = localStorage.getItem('role');
+                // alert(role);
+                if (chatItem['user_id'].toString() === me.userId.toString() || role === '1') {
                     me.chatContentsArray.push({
                         type: chatItem['message_type'],
                         staffId: chatItem['staff_id'],
