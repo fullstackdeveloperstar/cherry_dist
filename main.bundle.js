@@ -2516,7 +2516,7 @@ var HeaderComponent = /** @class */ (function () {
 /***/ "./src/app/dashboard/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"dashboard\">\r\n    <app-waitinglist></app-waitinglist>\r\n</div>"
+module.exports = "<div class=\"dashboard\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-4\">\r\n            <app-waitinglist></app-waitinglist>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
