@@ -2916,8 +2916,8 @@ var ProfileComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return config; });
 var config = {
-    // baseURL: 'http://localhost:3000/'
-    baseURL: 'http://34.220.128.209:3000/'
+    // baseURL: 'https://localhost:3000/'
+    baseURL: 'https://34.220.128.209:3000/'
 };
 
 
@@ -3560,8 +3560,8 @@ var WebsocketService = /** @class */ (function () {
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: false,
-    // ws_url: 'http://localhost:3000'
-    ws_url: 'http://34.220.128.209:3000'
+    // ws_url: 'https://localhost:3000'
+    ws_url: 'https://34.220.128.209:3000'
 };
 
 
