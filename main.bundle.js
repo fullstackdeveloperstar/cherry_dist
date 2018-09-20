@@ -1231,6 +1231,7 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__chatdemo_chatdemo_component__ = __webpack_require__("./src/app/chatdemo/chatdemo.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_ng2_datepicker__ = __webpack_require__("./node_modules/ng2-datepicker/dist/bundles/ng2-datepicker.umd.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36_ng2_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_36_ng2_datepicker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__dashboard_waitinglist_waitinglist_component__ = __webpack_require__("./src/app/dashboard/waitinglist/waitinglist.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1275,6 +1276,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -1296,7 +1298,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_17__admin_managestatus_managestatus_component__["a" /* ManagestatusComponent */],
                 __WEBPACK_IMPORTED_MODULE_18__admin_manageactions_manageactions_component__["a" /* ManageactionsComponent */],
                 __WEBPACK_IMPORTED_MODULE_31__chat_chat_component__["a" /* ChatComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__chatdemo_chatdemo_component__["a" /* ChatdemoComponent */]
+                __WEBPACK_IMPORTED_MODULE_35__chatdemo_chatdemo_component__["a" /* ChatdemoComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__dashboard_waitinglist_waitinglist_component__["a" /* WaitinglistComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -1924,7 +1927,6 @@ var ChatdemoComponent = /** @class */ (function () {
         this.userId = activedRoute.snapshot.params['userId'];
         this.staffService.getStaffList().subscribe(function (staffs) {
             me.staffArray = staffs['data'];
-            console.log(me.staffArray);
         });
         this.chatService.loadChatContent(this.staffId, this.userId).subscribe(function (chatContents) {
             chatContents['data'].map(function (chatItem) {
@@ -1933,9 +1935,6 @@ var ChatdemoComponent = /** @class */ (function () {
                     if (chatItem['message_type'] === 'userTostaff') {
                         contactService.getUserProfile(chatItem['user_id']).subscribe(function (data) {
                             if (data['error'] === 0) {
-                                // me.userProfile = data['data'][0];
-                                // username = data['data'][0]['first_name'] + data['data'][0]['first_name'];
-                                // me.profileArray.push(data['data'][0]);
                                 var exist = false;
                                 me.profileArray.map(function (temp) {
                                     if (temp.id === data['data'][0]['id']) {
@@ -1958,37 +1957,10 @@ var ChatdemoComponent = /** @class */ (function () {
                 }
             });
             var elmnt = document.getElementById('scrollToView');
-            // elmnt.scrollIntoView();
             setTimeout(function () {
                 elmnt.scrollIntoView();
             }, 1000);
         });
-        // var contactData = {
-        //   status: 1
-        // };
-        // this.contactService.updateByUserId(this.userId, contactData).subscribe(data => {
-        //   if (data['success'] === 1) {
-        //     me.chatService.sendMsg({
-        //       type: 'changedstatus'
-        //     });
-        //   }
-        // });
-        // this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
-        //   chatContents['data'].map(chatItem => {
-        //     me.chatContentsArray.push({
-        //       type: chatItem['message_type'],
-        //       staffId: me.staffId,
-        //       userId: me.userId,
-        //       msg: chatItem['message'],
-        //       isMedia: chatItem['isMedia'] === 0 ? false : true
-        //     });
-        //   });
-        //   var elmnt = document.getElementById('scrollToView');
-        //   // elmnt.scrollIntoView();
-        //   setTimeout(() => {
-        //     elmnt.scrollIntoView();
-        //   }, 1000);
-        // });
     }
     ChatdemoComponent.prototype.ngOnInit = function () {
         var me = this;
@@ -2003,9 +1975,11 @@ var ChatdemoComponent = /** @class */ (function () {
             }
             if (msg.text.type === 'startChat' && msg.text.userId.toString() === me.userId.toString()) {
                 me.staffId = msg.text.staffId;
-                // console.log(msg);
-                // console.log(me.staffId);
             }
+        });
+        this.chatService.sendMsg({
+            type: 'requestchat',
+            userId: this.userId
         });
     };
     ChatdemoComponent.prototype.sendMessage = function () {
@@ -2133,7 +2107,8 @@ var ContactsComponent = /** @class */ (function () {
         var role = localStorage.getItem('role');
         me.contactsList = [];
         me.contactsListShow = [];
-        this.contactsService.getContacts().subscribe(function (data) {
+        console.log(me.contactsService);
+        me.contactsService.getContacts().subscribe(function (data) {
             if (data['success'] === 1) {
                 data['data'].map(function (contact) {
                     if (role.toString() === '2') {
@@ -2155,10 +2130,6 @@ var ContactsComponent = /** @class */ (function () {
                             contact['tags'] += tag['data'][0]['name'];
                         });
                     });
-                    // me.tagService.getTagName(contact['tags']).subscribe(tag => {
-                    //   contact['tags'] += tag['data'][0]['name'];
-                    //   console.log(contact['tags']);
-                    // });
                     me.statusService.getStatusName(contact['status']).subscribe(function (status) {
                         contact['status'] = status['data'][0]['name'];
                     });
@@ -2171,6 +2142,7 @@ var ContactsComponent = /** @class */ (function () {
                     me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(function (chat) {
                         if (chat['success'] === 1) {
                             contact['messages'] = chat['data'][0];
+                            me.sort();
                         }
                     });
                     me.contactsService.getUserProfile(contact['user_id']).subscribe(function (user) {
@@ -2192,7 +2164,26 @@ var ContactsComponent = /** @class */ (function () {
         });
         this.staffService.getStaffList().subscribe(function (stafflist) {
             me.staffList = stafflist['data'];
-            console.log(me.staffList);
+            // console.log(me.staffList);
+        });
+    };
+    ContactsComponent.prototype.intervalFuc = function () {
+        this.loadContacts();
+    };
+    ContactsComponent.prototype.sort = function () {
+        var me = this;
+        me.contactsListShow.sort(function (a, b) {
+            var return_val = 0;
+            if (a['messages']['updated'] > b['messages']['updated']) {
+                return_val = 1;
+            }
+            if (a['messages']['updated'] === b['messages']['updated']) {
+                return_val = 0;
+            }
+            if (a['messages']['updated'] < b['messages']['updated']) {
+                return_val = -1;
+            }
+            return return_val;
         });
     };
     ContactsComponent.prototype.ngOnInit = function () {
@@ -2202,6 +2193,70 @@ var ContactsComponent = /** @class */ (function () {
                 me.loadContacts();
             }
         });
+        this.interval = setInterval(function () {
+            var userId = localStorage.getItem('userId');
+            var role = localStorage.getItem('role');
+            me.contactsList = [];
+            me.contactsListShow = [];
+            console.log(me.contactsService);
+            me.contactsService.getContacts().subscribe(function (data) {
+                if (data['success'] === 1) {
+                    data['data'].map(function (contact) {
+                        if (role.toString() === '2') {
+                            if (contact['staff'].toString() === userId) {
+                                me.contactsList.push(contact);
+                            }
+                        }
+                        else {
+                            me.contactsList.push(contact);
+                        }
+                    });
+                    me.contactsList.map(function (contact) {
+                        var tagIds = contact['tags'].split(',');
+                        contact['tagsArray'] = [];
+                        contact['tags'] = '';
+                        tagIds.map(function (tagId) {
+                            me.tagService.getTagName(tagId).subscribe(function (tag) {
+                                contact['tagsArray'].push(tag['data'][0]);
+                                contact['tags'] += tag['data'][0]['name'];
+                            });
+                        });
+                        me.statusService.getStatusName(contact['status']).subscribe(function (status) {
+                            contact['status'] = status['data'][0]['name'];
+                        });
+                        me.actionService.getActionName(contact['actions']).subscribe(function (action) {
+                            contact['actions'] = action['data'][0]['name'];
+                        });
+                        me.staffService.getStaff(contact['staff']).subscribe(function (staff) {
+                            contact['staffName'] = staff['data'][0]['name'];
+                        });
+                        me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(function (chat) {
+                            if (chat['success'] === 1) {
+                                contact['messages'] = chat['data'][0];
+                                me.sort();
+                            }
+                        });
+                        me.contactsService.getUserProfile(contact['user_id']).subscribe(function (user) {
+                            if (user['error'] === 0 && user['data'].length > 0) {
+                                contact['profile_image'] = user['data'][0]['image'];
+                                if (contact['profile_image'] === '' || contact['profile_image'] === '/upload/profile-placeholder.png') {
+                                    contact['profile_image'] = __WEBPACK_IMPORTED_MODULE_8__shared_modules_config_model__["a" /* config */].baseURL + 'avartar.png';
+                                }
+                                contact['name'] = user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'];
+                            }
+                        });
+                        var min = Math.floor(contact['time'] / 60).toString();
+                        var sec = (contact['time'] % 60).toString();
+                        contact['time'] = min + ':' + sec;
+                        contact['check'] = false;
+                    });
+                    me.contactsListShow = me.contactsList;
+                }
+            });
+            me.staffService.getStaffList().subscribe(function (stafflist) {
+                me.staffList = stafflist['data'];
+            });
+        }, 5 * 60 * 1000);
     };
     ContactsComponent.prototype.filter = function () {
         var me = this;
@@ -2209,8 +2264,6 @@ var ContactsComponent = /** @class */ (function () {
             if (!me.isAdvancedFiltering) {
                 return el.name.toLowerCase().includes(me.searchFilter.toLowerCase());
             }
-            console.log(el.date_of_creation);
-            // console.log(me.date);
             var d = new Date(me.date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
             if (month.length < 2) {
                 month = '0' + month;
@@ -2222,7 +2275,6 @@ var ContactsComponent = /** @class */ (function () {
             if (real_data === 'NaN-NaN-NaN') {
                 real_data = '';
             }
-            console.log(real_data);
             return el.tags.toLowerCase().includes(me.tagFilter.toLowerCase())
                 && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
                 && el.status.toLowerCase().includes(me.statusFilter.toLowerCase())
@@ -2298,6 +2350,9 @@ var ContactsComponent = /** @class */ (function () {
         if (!this.isAdvancedFiltering) {
             this.filter();
         }
+    };
+    ContactsComponent.prototype.ngOnDestroy = function () {
+        clearInterval(this.interval);
     };
     ContactsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -2461,7 +2516,7 @@ var HeaderComponent = /** @class */ (function () {
 /***/ "./src/app/dashboard/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1 style=\"text-align:center;margin-top:20%;\">Comming Soon!</h1>"
+module.exports = "<div class=\"dashboard\">\r\n    <app-waitinglist></app-waitinglist>\r\n</div>"
 
 /***/ }),
 
@@ -2502,6 +2557,116 @@ var HomeComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], HomeComponent);
     return HomeComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/dashboard/waitinglist/waitinglist.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"waitinglist\">\n  <h3>Waiting List</h3>\n  <table class=\"table table-hover\">\n    <thead>\n      <th>Profile</th>\n      <th>Name</th>\n      <th>Accept</th>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let waitItem of waitingList;\">\n        <td>\n          <img [src]=\"waitItem.image\" class=\"itemimg\">\n        </td>\n        <td>{{waitItem.name}}</td>\n        <td>\n          <button class=\"btn btn-success\">Accept</button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/dashboard/waitinglist/waitinglist.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = ".waitinglist {\n  padding: 20px 5%; }\n  .waitinglist .itemimg {\n    width: 100px;\n    border: solid 1px;\n    border-radius: 50%; }\n"
+
+/***/ }),
+
+/***/ "./src/app/dashboard/waitinglist/waitinglist.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WaitinglistComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_chat_service__ = __webpack_require__("./src/app/shared/services/chat.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_contacts_service__ = __webpack_require__("./src/app/shared/services/contacts.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_modules_config_model__ = __webpack_require__("./src/app/shared/modules/config.model.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var WaitinglistComponent = /** @class */ (function () {
+    function WaitinglistComponent(chatService, contactsService) {
+        this.chatService = chatService;
+        this.contactsService = contactsService;
+        this.waitingList = [];
+        Notification.requestPermission();
+    }
+    WaitinglistComponent.prototype.ngOnInit = function () {
+        var me = this;
+        this.chatService.messages.subscribe(function (msg) {
+            if (msg.text.type === 'requestchat') {
+                var userId = msg.text.userId;
+                var isExist = false;
+                me.waitingList.map(function (waitItem) {
+                    if (userId === waitItem.userId) {
+                        isExist = true;
+                    }
+                });
+                if (isExist) {
+                    return;
+                }
+                me.contactsService.getUserProfile(userId).subscribe(function (user) {
+                    if (user['error'] === 0 && user['data'].length > 0) {
+                        if (user['data'][0]['image'] === '' || user['data'][0]['image'] === '/upload/profile-placeholder.png') {
+                            user['data'][0]['image'] = __WEBPACK_IMPORTED_MODULE_3__shared_modules_config_model__["a" /* config */].baseURL + 'avartar.png';
+                        }
+                        me.waitingList.push({
+                            userId: userId,
+                            image: user['data'][0]['image'],
+                            name: user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name']
+                        });
+                        var e = new Notification('New Request', {
+                            body: user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'] + 'is requesting to accept chat.',
+                            icon: user['data'][0]['image']
+                        });
+                        e.onclick = function () {
+                        };
+                    }
+                });
+            }
+            if (msg.text.type === 'userTostaff') {
+                var userId = msg.text.userId;
+                me.contactsService.getUserProfile(userId).subscribe(function (user) {
+                    if (user['error'] === 0 && user['data'].length > 0) {
+                        if (user['data'][0]['image'] === '' || user['data'][0]['image'] === '/upload/profile-placeholder.png') {
+                            user['data'][0]['image'] = __WEBPACK_IMPORTED_MODULE_3__shared_modules_config_model__["a" /* config */].baseURL + 'avartar.png';
+                        }
+                        var e = new Notification(user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'] + 'is sending new message', {
+                            body: msg.text.msg,
+                            icon: user['data'][0]['image']
+                        });
+                        e.onclick = function () {
+                        };
+                    }
+                });
+            }
+        });
+    };
+    WaitinglistComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-waitinglist',
+            template: __webpack_require__("./src/app/dashboard/waitinglist/waitinglist.component.html"),
+            styles: [__webpack_require__("./src/app/dashboard/waitinglist/waitinglist.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services_chat_service__["a" /* ChatService */],
+            __WEBPACK_IMPORTED_MODULE_2__shared_services_contacts_service__["a" /* ContactsService */]])
+    ], WaitinglistComponent);
+    return WaitinglistComponent;
 }());
 
 
