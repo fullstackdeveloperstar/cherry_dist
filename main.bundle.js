@@ -1465,7 +1465,16 @@ var ChatComponent = /** @class */ (function () {
                 }
                 var role = localStorage.getItem('role');
                 // alert(role);
-                if (chatItem['user_id'].toString() === me.userId.toString() || role === '1') {
+                if (chatItem['user_id'].toString() === me.userId.toString() && role === '1') {
+                    me.chatContentsArray.push({
+                        type: chatItem['message_type'],
+                        staffId: chatItem['staff_id'],
+                        userId: chatItem['user_id'],
+                        msg: chatItem['message'],
+                        isMedia: chatItem['isMedia'] === 0 ? false : true
+                    });
+                }
+                else if (chatItem['user_id'].toString() === me.userId.toString() && role === '2' && chatItem['staff'].toString() === me.staffId.toString()) {
                     me.chatContentsArray.push({
                         type: chatItem['message_type'],
                         staffId: chatItem['staff_id'],
