@@ -1898,6 +1898,7 @@ module.exports = ".chat-content-div {\n  width: 100%;\n  height: 500px;\n  borde
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_contacts_service__ = __webpack_require__("./src/app/shared/services/contacts.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_staff_service__ = __webpack_require__("./src/app/shared/services/staff.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1912,12 +1913,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ChatdemoComponent = /** @class */ (function () {
-    function ChatdemoComponent(chatService, activedRoute, contactService, staffService) {
+    function ChatdemoComponent(chatService, activedRoute, contactService, staffService, loginService) {
         this.chatService = chatService;
         this.activedRoute = activedRoute;
         this.contactService = contactService;
         this.staffService = staffService;
+        this.loginService = loginService;
         this.staffId = '';
         this.chatContentsArray = [];
         this.sendMessageStr = '';
@@ -1925,15 +1928,28 @@ var ChatdemoComponent = /** @class */ (function () {
         this.profileArray = [];
         var me = this;
         this.userId = activedRoute.snapshot.params['userId'];
-        this.staffService.getStaffList().subscribe(function (staffs) {
+        var token = localStorage.getItem('token');
+        if (token) {
+            this.preProcess();
+        }
+        else {
+            this.loginService.getToken().subscribe(function (tokenData) {
+                localStorage.setItem('token', tokenData['token']);
+                me.preProcess();
+            });
+        }
+    }
+    ChatdemoComponent.prototype.preProcess = function () {
+        var me = this;
+        me.staffService.getStaffList().subscribe(function (staffs) {
             me.staffArray = staffs['data'];
         });
-        this.chatService.loadChatContent(this.staffId, this.userId).subscribe(function (chatContents) {
+        me.chatService.loadChatContent(this.staffId, this.userId).subscribe(function (chatContents) {
             chatContents['data'].map(function (chatItem) {
                 var username = '';
                 if (chatItem['user_id'].toString() === me.userId.toString()) {
                     if (chatItem['message_type'] === 'userTostaff') {
-                        contactService.getUserProfile(chatItem['user_id']).subscribe(function (data) {
+                        me.contactService.getUserProfile(chatItem['user_id']).subscribe(function (data) {
                             if (data['error'] === 0) {
                                 var exist = false;
                                 me.profileArray.map(function (temp) {
@@ -1961,7 +1977,7 @@ var ChatdemoComponent = /** @class */ (function () {
                 elmnt.scrollIntoView();
             }, 1000);
         });
-    }
+    };
     ChatdemoComponent.prototype.ngOnInit = function () {
         var me = this;
         this.chatService.messages.subscribe(function (msg) {
@@ -2004,7 +2020,8 @@ var ChatdemoComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services_chat_service__["a" /* ChatService */],
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_3__shared_services_contacts_service__["a" /* ContactsService */],
-            __WEBPACK_IMPORTED_MODULE_4__shared_services_staff_service__["a" /* StaffService */]])
+            __WEBPACK_IMPORTED_MODULE_4__shared_services_staff_service__["a" /* StaffService */],
+            __WEBPACK_IMPORTED_MODULE_5__shared_services_login_service__["a" /* LoginService */]])
     ], ChatdemoComponent);
     return ChatdemoComponent;
 }());
@@ -2566,7 +2583,7 @@ var HomeComponent = /** @class */ (function () {
 /***/ "./src/app/dashboard/waitinglist/waitinglist.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"waitinglist\">\n  <h3>Waiting List</h3>\n  <table class=\"table table-hover\">\n    <thead>\n      <th>Profile</th>\n      <th>Name</th>\n      <th>Accept</th>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let waitItem of waitingList;\">\n        <td>\n          <img [src]=\"waitItem.image\" class=\"itemimg\">\n        </td>\n        <td>{{waitItem.name}}</td>\n        <td>\n          <button class=\"btn btn-success\">Accept</button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n"
+module.exports = "<div class=\"waitinglist\">\n  <h3>Waiting List</h3>\n  <table class=\"table table-hover\">\n    <thead>\n      <th>Profile</th>\n      <th>Name</th>\n      <th>Accept</th>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let waitItem of waitingList;\">\n        <td>\n          <img [src]=\"waitItem.image\" class=\"itemimg\">\n        </td>\n        <td>{{waitItem.name}}</td>\n        <td>\n          <button class=\"btn btn-success\" (click)=\"accept(waitItem)\">Accept</button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n"
 
 /***/ }),
 
@@ -2586,6 +2603,7 @@ module.exports = ".waitinglist {\n  padding: 20px 5%; }\n  .waitinglist .itemimg
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_chat_service__ = __webpack_require__("./src/app/shared/services/chat.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_contacts_service__ = __webpack_require__("./src/app/shared/services/contacts.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_modules_config_model__ = __webpack_require__("./src/app/shared/modules/config.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2599,10 +2617,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var WaitinglistComponent = /** @class */ (function () {
-    function WaitinglistComponent(chatService, contactsService) {
+    function WaitinglistComponent(chatService, contactsService, router) {
         this.chatService = chatService;
         this.contactsService = contactsService;
+        this.router = router;
         this.waitingList = [];
         Notification.requestPermission();
     }
@@ -2657,6 +2677,21 @@ var WaitinglistComponent = /** @class */ (function () {
             }
         });
     };
+    WaitinglistComponent.prototype.accept = function (waitItem) {
+        console.log(waitItem);
+        var me = this;
+        var checkData = {
+            userId: waitItem.userId,
+            staffId: localStorage.getItem('userId')
+        };
+        this.contactsService.contactCheck(checkData).subscribe(function (data) {
+            if (data['success'] === 1) {
+                me.router.navigate(['/dashboard/chat/' + data['message'] + '/' + waitItem.userId]);
+            }
+            else {
+            }
+        });
+    };
     WaitinglistComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-waitinglist',
@@ -2664,7 +2699,8 @@ var WaitinglistComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/dashboard/waitinglist/waitinglist.component.scss")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services_chat_service__["a" /* ChatService */],
-            __WEBPACK_IMPORTED_MODULE_2__shared_services_contacts_service__["a" /* ContactsService */]])
+            __WEBPACK_IMPORTED_MODULE_2__shared_services_contacts_service__["a" /* ContactsService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]])
     ], WaitinglistComponent);
     return WaitinglistComponent;
 }());
@@ -2916,7 +2952,7 @@ var ProfileComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return config; });
 var config = {
-    // baseURL: 'https://localhost:3000/'
+    // baseURL: 'http://localhost:3000/'
     baseURL: 'https://34.220.128.209:3000/'
 };
 
@@ -3055,6 +3091,10 @@ var ChatService = /** @class */ (function () {
         this.token = localStorage.getItem('token');
         this.header = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["c" /* HttpHeaders */]({ 'token': this.token });
     }
+    ChatService.prototype.getHeader = function () {
+        this.token = localStorage.getItem('token');
+        this.header = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["c" /* HttpHeaders */]({ 'token': this.token });
+    };
     ChatService.prototype.sendMsg = function (msg) {
         this.messages.next(msg);
     };
@@ -3062,6 +3102,7 @@ var ChatService = /** @class */ (function () {
         return this.http.post(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'upload', formdata);
     };
     ChatService.prototype.loadChatContent = function (staffId, userId) {
+        this.getHeader();
         // return this.http.get(config.baseURL + 'api/chat_' + staffId + '_' + userId, {headers: this.header});
         return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/chat', { headers: this.header });
     };
@@ -3107,66 +3148,92 @@ var ContactsService = /** @class */ (function () {
         this.token = localStorage.getItem('token');
         this.header = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'token': this.token });
     }
+    ContactsService.prototype.makeHeader = function () {
+        this.token = localStorage.getItem('token');
+        this.header = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpHeaders */]({ 'token': this.token });
+    };
     ContactsService.prototype.getContacts = function () {
+        this.makeHeader();
         // return this.http.get(config.baseURL + 'remote/getUsers', { headers: this.header });
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name, { headers: this.header });
     };
     ContactsService.prototype.getContact = function (contactId) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + contactId, { headers: this.header });
     };
     ContactsService.prototype.delete = function (id) {
+        this.makeHeader();
         return this.http.delete(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserProfile = function (userId) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserProfile/' + userId, { headers: this.header });
     };
     ContactsService.prototype.getUserPhotos = function (userId) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserPhotos/' + userId, { headers: this.header });
     };
     ContactsService.prototype.getUserProductPayment = function (userId) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserProductPayment/' + userId, { headers: this.header });
     };
     ContactsService.prototype.getUserSocialData = function (userId) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserSocialData/' + userId, { headers: this.header });
     };
     ContactsService.prototype.getUserInterest = function (userId) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterest/' + userId, { headers: this.header });
     };
     ContactsService.prototype.getUserInterestHobby = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestHobby/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserInterestGame = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestGame/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserInterestMusic = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestMusic/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserInterestSport = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestSport/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserInterestFood = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestFood/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserInterestDrink = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestDrink/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserInterestBook = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestBook/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserInterestMovie = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserInterestMovie/' + id, { headers: this.header });
     };
     ContactsService.prototype.getUserHashCodes = function (user_id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserHashCodes/' + user_id, { headers: this.header });
     };
     ContactsService.prototype.getUserHashCode = function (id) {
+        this.makeHeader();
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'remote/getUserHashCode/' + id, { headers: this.header });
     };
     ContactsService.prototype.updateContact = function (contactId, contactData) {
+        this.makeHeader();
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name + '/' + contactId, contactData, { headers: this.header });
     };
     ContactsService.prototype.updateByUserId = function (userId, contactData) {
         return this.http.put(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/contactsupdate/' + userId, contactData);
+    };
+    ContactsService.prototype.contactCheck = function (data) {
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/contactcheck', data);
     };
     ContactsService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -3206,6 +3273,9 @@ var LoginService = /** @class */ (function () {
     }
     LoginService.prototype.login = function (userInfo) {
         return this.http.post(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'users/login', userInfo);
+    };
+    LoginService.prototype.getToken = function () {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'users/token');
     };
     LoginService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -3560,7 +3630,7 @@ var WebsocketService = /** @class */ (function () {
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: false,
-    // ws_url: 'https://localhost:3000'
+    // ws_url: 'http://localhost:3000'
     ws_url: 'https://34.220.128.209:3000'
 };
 
