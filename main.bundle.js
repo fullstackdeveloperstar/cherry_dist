@@ -1468,7 +1468,7 @@ var ChatComponent = /** @class */ (function () {
                 }
                 var role = localStorage.getItem('role');
                 // alert(role);
-                if (role === '1') {
+                if (chatItem['user_id'].toString() === me.userId.toString() || role === '1') {
                     me.chatContentsArray.push({
                         type: chatItem['message_type'],
                         staffId: chatItem['staff_id'],
