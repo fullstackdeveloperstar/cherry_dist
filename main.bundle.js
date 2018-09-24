@@ -1973,6 +1973,7 @@ var ChatdemoComponent = /** @class */ (function () {
         this.isShowMessage = false;
         this.contactList = [];
         this.isConnected = false;
+        this.isAccepted = false;
         var me = this;
         this.userId = this.activedRoute.snapshot.params['userId'];
         var token = localStorage.getItem('token');
@@ -2057,9 +2058,14 @@ var ChatdemoComponent = /** @class */ (function () {
                 }
             }
         });
-        setTimeout(function () { me.isShowMessage = true; }, 5000);
+        setTimeout(function () {
+            if (!me.isAccepted) {
+                me.isShowMessage = true;
+            }
+        }, 15000);
     };
     ChatdemoComponent.prototype.ngOnInit = function () {
+        var _this = this;
         var me = this;
         this.chatService.messages.subscribe(function (msg) {
             // if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
@@ -2072,6 +2078,9 @@ var ChatdemoComponent = /** @class */ (function () {
             }
             if (msg.text.type === 'startChat' && msg.text.userId.toString() === me.userId.toString()) {
                 me.staffId = msg.text.staffId;
+            }
+            if (msg.text.type === 'acceptchat' && msg.text.userId.toString() === me.userId.toString()) {
+                _this.isAccepted = true;
             }
         });
     };
@@ -2292,7 +2301,8 @@ var ContactsComponent = /** @class */ (function () {
                         }
                         else {
                             contact['messages'] = {
-                                message: ''
+                                message: '',
+                                updated: contact['date_of_creation']
                             };
                             me.sort();
                         }
@@ -2410,7 +2420,8 @@ var ContactsComponent = /** @class */ (function () {
                             }
                             else {
                                 contact['messages'] = {
-                                    message: ''
+                                    message: '',
+                                    updated: contact['date_of_creation']
                                 };
                                 me.sort();
                             }
