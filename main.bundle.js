@@ -1683,7 +1683,7 @@ var ChatComponent = /** @class */ (function () {
                         // console.log(data1);
                     });
                 }, 1000);
-                me.staffService.getStaff(me.staffId).subscribe(function (staff) {
+                me.staffService.getStaff(me.contactInfo['staff']).subscribe(function (staff) {
                     me.contactInfo['staff'] = staff['data'][0];
                     me.staffId = staff['data'][0]['id'];
                     // me.contactService.updateContact(me.contactId, { status: 2}).subscribe(data1 => {
@@ -2249,7 +2249,12 @@ var ContactsComponent = /** @class */ (function () {
                         });
                     });
                     me.statusService.getStatusName(contact['status']).subscribe(function (status) {
-                        contact['status'] = status['data'][0]['name'];
+                        if (status['success'] === 1 && status['data'].length > 0) {
+                            contact['status'] = status['data'][0]['name'];
+                        }
+                        else {
+                            contact['status'] = '';
+                        }
                     });
                     me.actionService.getActionName(contact['actions']).subscribe(function (action) {
                         if (action['success'] === 1) {
@@ -2260,7 +2265,12 @@ var ContactsComponent = /** @class */ (function () {
                         }
                     });
                     me.staffService.getStaff(contact['staff']).subscribe(function (staff) {
-                        contact['staffName'] = staff['data'][0]['name'];
+                        if (staff['success'] === 1 && staff['data'].length > 0) {
+                            contact['staffName'] = staff['data'][0]['name'];
+                        }
+                        else {
+                            contact['staffName'] = '';
+                        }
                     });
                     me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(function (chat) {
                         if (chat['success'] === 1) {
@@ -2331,7 +2341,6 @@ var ContactsComponent = /** @class */ (function () {
             var role = localStorage.getItem('role');
             me.contactsList = [];
             me.contactsListShow = [];
-            console.log(me.contactsService);
             me.contactsService.getContacts().subscribe(function (data) {
                 if (data['success'] === 1) {
                     data['data'].map(function (contact) {
@@ -2349,23 +2358,48 @@ var ContactsComponent = /** @class */ (function () {
                         contact['tagsArray'] = [];
                         contact['tags'] = '';
                         tagIds.map(function (tagId) {
+                            if (tagId.toString() === '') {
+                                return;
+                            }
                             me.tagService.getTagName(tagId).subscribe(function (tag) {
                                 contact['tagsArray'].push(tag['data'][0]);
                                 contact['tags'] += tag['data'][0]['name'];
                             });
                         });
                         me.statusService.getStatusName(contact['status']).subscribe(function (status) {
-                            contact['status'] = status['data'][0]['name'];
+                            if (status['success'] === 1 && status['data'].length > 0) {
+                                contact['status'] = status['data'][0]['name'];
+                            }
+                            else {
+                                contact['status'] = '';
+                            }
                         });
                         me.actionService.getActionName(contact['actions']).subscribe(function (action) {
-                            contact['actions'] = action['data'][0]['name'];
+                            if (action['success'] === 1) {
+                                contact['actions'] = action['data'][0]['name'];
+                            }
+                            else {
+                                contact['actions'] = '';
+                            }
                         });
                         me.staffService.getStaff(contact['staff']).subscribe(function (staff) {
-                            contact['staffName'] = staff['data'][0]['name'];
+                            if (staff['success'] === 1 && staff['data'].length > 0) {
+                                contact['staffName'] = staff['data'][0]['name'];
+                            }
+                            else {
+                                contact['staffName'] = '';
+                            }
                         });
                         me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(function (chat) {
                             if (chat['success'] === 1) {
                                 contact['messages'] = chat['data'][0];
+                                // console.log(chat['data'][0]);
+                                me.sort();
+                            }
+                            else {
+                                contact['messages'] = {
+                                    message: ''
+                                };
                                 me.sort();
                             }
                         });
@@ -2408,6 +2442,7 @@ var ContactsComponent = /** @class */ (function () {
             if (real_data === 'NaN-NaN-NaN') {
                 real_data = '';
             }
+            console.log(el);
             return el.tags.toLowerCase().includes(me.tagFilter.toLowerCase())
                 && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
                 && el.status.toLowerCase().includes(me.statusFilter.toLowerCase())
