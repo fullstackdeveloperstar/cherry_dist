@@ -1078,6 +1078,9 @@ var routes = [
     {
         component: __WEBPACK_IMPORTED_MODULE_2__login_login_component__["a" /* LoginComponent */],
         path: 'login'
+    }, {
+        component: __WEBPACK_IMPORTED_MODULE_15__chatdemo_chatdemo_component__["a" /* ChatdemoComponent */],
+        path: 'chat/:userId'
     },
     {
         component: __WEBPACK_IMPORTED_MODULE_3__dashboard_dashboard_component__["a" /* DashboardComponent */],
@@ -1119,10 +1122,6 @@ var routes = [
     },
     {
         path: '', redirectTo: '/login', pathMatch: 'full'
-    },
-    {
-        path: 'chat/:userId',
-        component: __WEBPACK_IMPORTED_MODULE_15__chatdemo_chatdemo_component__["a" /* ChatdemoComponent */]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -1321,14 +1320,13 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_20__shared_services_tag_service__["a" /* TagService */],
                 __WEBPACK_IMPORTED_MODULE_21__shared_services_template_service__["a" /* TemplateService */],
                 __WEBPACK_IMPORTED_MODULE_22__shared_services_status_service__["a" /* StatusService */],
-                __WEBPACK_IMPORTED_MODULE_23__shared_services_action_service__["a" /* ActionService */],
-                __WEBPACK_IMPORTED_MODULE_24__shared_services_authguard_service__["a" /* AuthguardService */],
                 __WEBPACK_IMPORTED_MODULE_25__shared_services_login_service__["a" /* LoginService */],
                 __WEBPACK_IMPORTED_MODULE_27__shared_services_contacts_service__["a" /* ContactsService */],
                 __WEBPACK_IMPORTED_MODULE_33__shared_services_chat_service__["a" /* ChatService */],
                 __WEBPACK_IMPORTED_MODULE_34__shared_services_websocket_service__["a" /* WebsocketService */],
-                __WEBPACK_IMPORTED_MODULE_38__shared_services_request_service__["a" /* RequestService */]
-                // NgbModal
+                __WEBPACK_IMPORTED_MODULE_38__shared_services_request_service__["a" /* RequestService */],
+                __WEBPACK_IMPORTED_MODULE_23__shared_services_action_service__["a" /* ActionService */],
+                __WEBPACK_IMPORTED_MODULE_24__shared_services_authguard_service__["a" /* AuthguardService */],
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
         })
@@ -1922,7 +1920,7 @@ var ChatComponent = /** @class */ (function () {
 /***/ "./src/app/chatdemo/chatdemo.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <!-- <div class=\"col-md-3\">\n      <label for=\"\">StaffId</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"staffId\" [(ngModel)]=\"staffId\" disabled>\n    </div>\n    <div class=\"col-md-3\">\n      <label for=\"\">UserId</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"userId\" [(ngModel)]='userId' disabled>\n    </div> -->\n    <div class=\"col-md-12\">\n      <div class=\"alert alert-success\" *ngIf=\"isShowMessage\">\n        <strong>It seems the dating coach is not online now. You can leave your messages here, and he/she will reply you ASAP.</strong>\n      </div>\n      \n    </div>\n  </div>\n  <!-- <div class=\"row\" style=\"margin-top: 20px;\" *ngIf=\"staffId && userId\"> -->\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <div class=\"col-md-12\">\n      <div class=\"chat-content-div\">\n        <!-- <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n          [ngClass]=\"{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId,\n                      'othermsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId}\"> -->\n      <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n          [ngClass]=\"{'selfmsg': chatItem.type == 'userTostaff',\n                      'othermsg': chatItem.type == 'staffTouser'}\">\n          \n          <div class=\"message-content\">\n            <div class=\"username\" *ngIf=\"chatItem.type == 'userTostaff'\">\n              \n              <span *ngIf=\"profile && profile.user_id == chatItem.userId \">{{profile.first_name + ' '+ profile.last_name}}</span>\n            \n            </div>\n\n            <div class=\"username\" *ngIf=\"chatItem.type == 'staffTouser'\">\n              <span *ngFor=\"let staffItem of staffArray;\">\n                <span *ngIf=\"staffItem.id == chatItem.staffId \">{{staffItem.name}}</span>\n              </span>\n            </div>\n\n            <div class=\"chat-content\" *ngIf=\"!chatItem.isMedia\">{{chatItem.msg}}</div>\n            <div class=\"chat-content\" *ngIf=\"chatItem.isMedia\"><img [src]=\"chatItem.msg\" style=\"max-width: 100%;\"></div>\n          </div>\n        </div>\n        <div id='scrollToView'></div>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"row\" style=\"margin-top: 20px;\" *ngIf=\"staffId && userId\"> -->\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <div class=\"col-md-10\">\n      <input type=\"text\" class=\"form-control\" placeholder=\"Message\" [(ngModel)]=\"sendMessageStr\" (keyup.enter)=\"sendMessage()\">\n    </div>\n    <div class=\"col-md-2\">\n      <button class=\"btn btn-default\" style=\"\" (click)=\"selectImage()\"><i class=\"fa fa-image\"></i></button>\n      <input type=\"file\" accept=\".jpg, .png, .jpeg\" id=\"profile-imgage-upload\" style=\"display: none;\" (change)=\"fileChange($event)\">\n      <button class=\"btn btn-success\" (click)=\"sendMessage()\">Send</button>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container\">\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <!-- <div class=\"col-md-3\">\n      <label for=\"\">StaffId</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"staffId\" [(ngModel)]=\"staffId\" disabled>\n    </div>\n    <div class=\"col-md-3\">\n      <label for=\"\">UserId</label>\n      <input type=\"text\" class=\"form-control\" placeholder=\"userId\" [(ngModel)]='userId' disabled>\n    </div> -->\n    <div class=\"col-md-12\">\n      <div class=\"alert alert-success\" *ngIf=\"isShowMessage && !isConnected\">\n        <strong>It seems the dating coach is not online now. You can leave your messages here, and he/she will reply you ASAP.</strong>\n      </div>\n      \n    </div>\n  </div>\n  <!-- <div class=\"row\" style=\"margin-top: 20px;\" *ngIf=\"staffId && userId\"> -->\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <div class=\"col-md-12\">\n      <div class=\"chat-content-div\">\n        <!-- <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n          [ngClass]=\"{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId,\n                      'othermsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId}\"> -->\n      <div class=\"chat-content-item\" *ngFor=\"let chatItem of chatContentsArray;\" \n          [ngClass]=\"{'selfmsg': chatItem.type == 'userTostaff',\n                      'othermsg': chatItem.type == 'staffTouser'}\">\n          \n          <div class=\"message-content\">\n            <div class=\"username\" *ngIf=\"chatItem.type == 'userTostaff'\">\n              \n              <span *ngIf=\"profile && profile.user_id == chatItem.userId \">{{profile.first_name + ' '+ profile.last_name}}</span>\n            \n            </div>\n\n            <div class=\"username\" *ngIf=\"chatItem.type == 'staffTouser'\">\n              <span *ngFor=\"let staffItem of staffArray;\">\n                <span *ngIf=\"staffItem.id == chatItem.staffId \">{{staffItem.name}}</span>\n              </span>\n            </div>\n\n            <div class=\"chat-content\" *ngIf=\"!chatItem.isMedia\">{{chatItem.msg}}</div>\n            <div class=\"chat-content\" *ngIf=\"chatItem.isMedia\"><img [src]=\"chatItem.msg\" style=\"max-width: 100%;\"></div>\n          </div>\n        </div>\n        <div id='scrollToView'></div>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"row\" style=\"margin-top: 20px;\" *ngIf=\"staffId && userId\"> -->\n  <div class=\"row\" style=\"margin-top: 20px;\">\n    <div class=\"col-md-10\">\n      <input type=\"text\" class=\"form-control\" placeholder=\"Message\" [(ngModel)]=\"sendMessageStr\" (keyup.enter)=\"sendMessage()\">\n    </div>\n    <div class=\"col-md-2\">\n      <button class=\"btn btn-default\" style=\"\" (click)=\"selectImage()\"><i class=\"fa fa-image\"></i></button>\n      <input type=\"file\" accept=\".jpg, .png, .jpeg\" id=\"profile-imgage-upload\" style=\"display: none;\" (change)=\"fileChange($event)\">\n      <button class=\"btn btn-success\" (click)=\"sendMessage()\">Send</button>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -1974,8 +1972,9 @@ var ChatdemoComponent = /** @class */ (function () {
         this.staffArray = [];
         this.isShowMessage = false;
         this.contactList = [];
+        this.isConnected = false;
         var me = this;
-        this.userId = activedRoute.snapshot.params['userId'];
+        this.userId = this.activedRoute.snapshot.params['userId'];
         var token = localStorage.getItem('token');
         if (token) {
             this.preProcess();
@@ -1983,11 +1982,16 @@ var ChatdemoComponent = /** @class */ (function () {
         else {
             this.loginService.getToken().subscribe(function (tokenData) {
                 localStorage.setItem('token', tokenData['token']);
+                // localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1Mzc3NjkzNjAsImV4cCI6MTUzNzc4Mzc2MH0.9923mcV5sKuquFu0zzzkN_wOyEmoTx0iTC9k9B9X8Tc');
                 me.preProcess();
+            }, function (error) {
+                console.log('error', error);
             });
+            // localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1Mzc3Njc5MjIsImV4cCI6MTUzNzc4MjMyMn0.TcxJxRJFVT66WHLExhdgHD3qmQHLp1jfSbY2PxC1JpQ');
         }
     }
     ChatdemoComponent.prototype.preProcess = function () {
+        var _this = this;
         var me = this;
         me.staffService.getStaffList().subscribe(function (staffs) {
             me.staffArray = staffs['data'];
@@ -2025,12 +2029,8 @@ var ChatdemoComponent = /** @class */ (function () {
                 elmnt.scrollIntoView();
             }, 1000);
         });
-    };
-    ChatdemoComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        var me = this;
-        this.contactService.getUserProfile(this.userId).subscribe(function (profile) {
-            // console.log(profile);
+        me.contactService.getUserProfile(this.userId).subscribe(function (profile) {
+            console.log(profile);
             if (profile['error'] === 0 && profile['data'].length > 0) {
                 me.profile = profile['data'][0];
             }
@@ -2038,6 +2038,29 @@ var ChatdemoComponent = /** @class */ (function () {
                 alert('In the cherry system, such this user does not exist!');
             }
         });
+        this.contactService.getContacts().subscribe(function (contacts) {
+            console.log(contacts);
+            if (contacts['success'] === 1) {
+                me.contactList = contacts['data'];
+                var isExist = false;
+                me.contactList.map(function (contact) {
+                    if (contact['user_id'].toString() === me.userId.toString()) {
+                        isExist = true;
+                    }
+                });
+                me.isConnected = isExist;
+                if (!isExist) {
+                    me.chatService.sendMsg({
+                        type: 'requestchat',
+                        userId: _this.userId
+                    });
+                }
+            }
+        });
+        setTimeout(function () { me.isShowMessage = true; }, 5000);
+    };
+    ChatdemoComponent.prototype.ngOnInit = function () {
+        var me = this;
         this.chatService.messages.subscribe(function (msg) {
             // if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
             if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.userId.toString() === me.userId.toString()) {
@@ -2051,25 +2074,6 @@ var ChatdemoComponent = /** @class */ (function () {
                 me.staffId = msg.text.staffId;
             }
         });
-        this.contactService.getContacts().subscribe(function (contacts) {
-            console.log(contacts);
-            if (contacts['success'] === 1) {
-                me.contactList = contacts['data'];
-                var isExist = false;
-                me.contactList.map(function (contact) {
-                    if (contact['user_id'].toString() === me.userId.toString()) {
-                        isExist = true;
-                    }
-                });
-                if (!isExist) {
-                    me.chatService.sendMsg({
-                        type: 'requestchat',
-                        userId: _this.userId
-                    });
-                }
-            }
-        });
-        setTimeout(function () { me.isShowMessage = true; }, 5000);
     };
     ChatdemoComponent.prototype.sendMessage = function () {
         if (this.sendMessageStr === '') {
@@ -2187,12 +2191,20 @@ var ContactsComponent = /** @class */ (function () {
         this.staffService = staffService;
         this.router = router;
         this.chatService = chatService;
+        this.today = new Date();
+        this.monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
         this.options = {
             locale: __WEBPACK_IMPORTED_MODULE_9_date_fns_locale_en__,
             addClass: 'form-control',
             addStyle: { width: '100%' },
             displayFormat: 'YYYY-MM-DD',
             placeholder: 'Date of Creation',
+            barTitleIfEmpty: this.monthNames[this.today.getMonth()] + ' ' + this.today.getFullYear(),
             minYear: 2018,
             maxYear: 2100,
         };
@@ -2829,6 +2841,7 @@ var WaitinglistComponent = /** @class */ (function () {
                         });
                         e.onclick = function () {
                         };
+                        me.loadRequests();
                     }
                 });
             }
@@ -2869,8 +2882,10 @@ var WaitinglistComponent = /** @class */ (function () {
                             me.waitingList.push({
                                 userId: request['user_id'],
                                 image: user['data'][0]['image'],
-                                name: user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name']
+                                name: user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'],
+                                created: request['created']
                             });
+                            me.sort();
                         }
                     });
                 });
@@ -2894,6 +2909,22 @@ var WaitinglistComponent = /** @class */ (function () {
             }
             else {
             }
+        });
+    };
+    WaitinglistComponent.prototype.sort = function () {
+        var me = this;
+        me.waitingList.sort(function (a, b) {
+            var return_val = 0;
+            if (a['created'] > b['created']) {
+                return_val = -1;
+            }
+            if (a['created'] === b['created']) {
+                return_val = 0;
+            }
+            if (a['created'] < b['created']) {
+                return_val = 1;
+            }
+            return return_val;
         });
     };
     WaitinglistComponent = __decorate([
@@ -2983,7 +3014,7 @@ var LoginComponent = /** @class */ (function () {
             }
             if (data['error'] === 0) {
                 _this.isResError = false;
-                _this.loginService.token = data['token'];
+                // this.loginService.token = data['token'];
                 localStorage.setItem('token', data['token']);
                 localStorage.setItem('userId', data['user'].id);
                 localStorage.setItem('role', data['user'].role);
@@ -3225,7 +3256,6 @@ var ActionService = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthguardService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3237,23 +3267,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
 var AuthguardService = /** @class */ (function () {
-    function AuthguardService(router, loginService) {
+    function AuthguardService(router) {
         this.router = router;
-        this.loginService = loginService;
     }
     AuthguardService.prototype.canActivate = function () {
         if (localStorage.getItem('token') != null) {
-            this.loginService.token = localStorage.getItem('token');
+            // this.loginService.token = localStorage.getItem('token');
             return true;
         }
         return false;
     };
     AuthguardService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_2__login_service__["a" /* LoginService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
     ], AuthguardService);
     return AuthguardService;
 }());
@@ -3293,8 +3320,8 @@ var ChatService = /** @class */ (function () {
             .map(function (response) {
             return response;
         });
-        this.token = localStorage.getItem('token');
-        this.header = new __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["c" /* HttpHeaders */]({ 'token': this.token });
+        // this.token = localStorage.getItem('token');
+        // this.header = new HttpHeaders({ 'token': this.token });
     }
     ChatService.prototype.getHeader = function () {
         this.token = localStorage.getItem('token');
@@ -3308,6 +3335,7 @@ var ChatService = /** @class */ (function () {
     };
     ChatService.prototype.loadChatContent = function (staffId, userId) {
         this.getHeader();
+        console.log('load chat content');
         // return this.http.get(config.baseURL + 'api/chat_' + staffId + '_' + userId, {headers: this.header});
         return this.http.get(__WEBPACK_IMPORTED_MODULE_3__modules_config_model__["a" /* config */].baseURL + 'api/chat', { headers: this.header });
     };
@@ -3440,6 +3468,10 @@ var ContactsService = /** @class */ (function () {
     ContactsService.prototype.contactCheck = function (data) {
         return this.http.post(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/contactcheck', data);
     };
+    ContactsService.prototype.getToken = function () {
+        console.log('get token');
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'users/token');
+    };
     ContactsService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]])
@@ -3474,7 +3506,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var LoginService = /** @class */ (function () {
     function LoginService(http) {
         this.http = http;
-        this.token = localStorage.getItem('token');
+        // this.token = localStorage.getItem('token');
     }
     LoginService.prototype.login = function (userInfo) {
         return this.http.post(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'users/login', userInfo);
@@ -3616,7 +3648,6 @@ var StaffService = /** @class */ (function () {
         this.http = http;
         this.staffList = [];
         this.table_name = 'users';
-        this.makeHeader();
     }
     StaffService.prototype.makeHeader = function () {
         this.token = localStorage.getItem('token');
@@ -3624,6 +3655,7 @@ var StaffService = /** @class */ (function () {
     };
     StaffService.prototype.getStaffList = function () {
         this.makeHeader();
+        console.log('getstaff list');
         return this.http.get(__WEBPACK_IMPORTED_MODULE_2__modules_config_model__["a" /* config */].baseURL + 'api/' + this.table_name, { headers: this.header });
     };
     StaffService.prototype.addNewStaff = function (newStaff) {
