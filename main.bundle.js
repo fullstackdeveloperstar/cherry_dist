@@ -2759,7 +2759,7 @@ var HomeComponent = /** @class */ (function () {
 /***/ "./src/app/dashboard/waitinglist/waitinglist.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"waitinglist\">\n  <h3>Waiting List</h3>\n  <table class=\"table table-hover\">\n    <thead>\n      <th>Profile</th>\n      <th>Name</th>\n      <th>Accept</th>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let waitItem of waitingList;\">\n        <td>\n          <img [src]=\"waitItem.image\" class=\"itemimg\">\n        </td>\n        <td>{{waitItem.name}}</td>\n        <td>\n          <button class=\"btn btn-success\" (click)=\"accept(waitItem)\">Accept</button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n"
+module.exports = "<div class=\"waitinglist\">\n  <h3>Waiting List</h3>\n  <table class=\"table table-hover\">\n    <thead>\n      <th>Profile</th>\n      <th>Name</th>\n      <th>Request Date</th>\n      <th>Accept</th>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let waitItem of waitingList;\">\n        <td>\n          <img [src]=\"waitItem.image\" class=\"itemimg\">\n        </td>\n        <td>{{waitItem.name}}</td>\n        <td>\n          {{waitItem.created | amTz:'America/Chicago'}}\n        </td>\n        <td>\n          <button class=\"btn btn-success\" (click)=\"accept(waitItem)\">Accept</button>\n        </td>\n      </tr>\n    </tbody>\n  </table>\n</div>\n"
 
 /***/ }),
 
@@ -2881,7 +2881,6 @@ var WaitinglistComponent = /** @class */ (function () {
     WaitinglistComponent.prototype.loadRequests = function () {
         var me = this;
         this.requestService.getRequests().subscribe(function (requests) {
-            console.log(requests);
             if (requests['success'] === 1 && requests['data'].length > 0) {
                 me.waitingList = [];
                 requests['data'].map(function (request) {
@@ -2927,13 +2926,13 @@ var WaitinglistComponent = /** @class */ (function () {
         me.waitingList.sort(function (a, b) {
             var return_val = 0;
             if (a['created'] > b['created']) {
-                return_val = -1;
+                return_val = 1;
             }
-            if (a['created'] === b['created']) {
+            else if (a['created'] === b['created']) {
                 return_val = 0;
             }
-            if (a['created'] < b['created']) {
-                return_val = 1;
+            else if (a['created'] < b['created']) {
+                return_val = -1;
             }
             return return_val;
         });
